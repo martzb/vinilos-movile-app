@@ -21,6 +21,13 @@
         android:id="@+id/albumFragment"
         android:name="com.misw.vinilos.ui.album.AlbumFragment"
         android:label="Álbumes"
-        tools:layout="@layout/fragment_album_list" />
+        tools:layout="@layout/fragment_album_list">
+
+        <argument
+            android:name="profileName"
+            app:argType="string"
+            android:defaultValue="Usuario Visitante" />
+
+    </fragment>
 
 </navigation>

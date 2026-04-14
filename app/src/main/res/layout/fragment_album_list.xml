@@ -54,7 +54,6 @@
                     android:id="@+id/tv_profile_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/collector_title"
                     android:textColor="@color/text_primary"
                     android:textSize="26sp"
                     android:textStyle="bold"

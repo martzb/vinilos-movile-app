@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.misw.vinilos.R
 import com.misw.vinilos.databinding.FragmentAlbumListBinding
 
 class AlbumFragment : Fragment() {
@@ -41,6 +42,9 @@ class AlbumFragment : Fragment() {
         // Grid 2 columnas — agregados recientemente
         binding.rvRecent.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvRecent.adapter = recentAdapter
+
+        val profileName = arguments?.getString("profileName") ?: getString(R.string.visitor_title)
+        binding.tvProfileTitle.text = profileName
 
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
