@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Paleta Vinilos -->
+    <color name="background_dark">#1A1A2E</color>
+    <color name="card_background">#2A2A3E</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#AAAACC</color>
+    <color name="accent_purple">#7B6CF6</color>
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Disco exterior -->
+    <path
+        android:fillColor="#7B6CF6"
+        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z" />
+
+    <!-- Anillo intermedio -->
+    <path
+        android:fillColor="#1A1A2E"
+        android:pathData="M12,5C8.13,5 5,8.13 5,12s3.13,7 7,7 7,-3.13 7,-7S15.87,5 12,5z" />
+
+    <!-- Anillo interior -->
+    <path
+        android:fillColor="#7B6CF6"
+        android:pathData="M12,8.5C10.07,8.5 8.5,10.07 8.5,12s1.57,3.5 3.5,3.5 3.5,-1.57 3.5,-3.5S13.93,8.5 12,8.5z" />
+
+    <!-- Agujero central -->
+    <path
+        android:fillColor="#1A1A2E"
+        android:pathData="M12,10.5C11.17,10.5 10.5,11.17 10.5,12s0.67,1.5 1.5,1.5 1.5,-0.67 1.5,-1.5S12.83,10.5 12,10.5z" />
+
+</vector>

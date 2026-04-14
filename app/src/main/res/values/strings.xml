@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Vinilos</string>
+
+    <!-- Welcome Screen -->
+    <string name="welcome_subtitle">Selecciona tu perfil para continuar</string>
+
+    <!-- Visitor profile -->
+    <string name="visitor_title">Usuario Visitante</string>
+    <string name="visitor_description">Explora el catálogo, descubre nuevos artistas y escucha muestras sin necesidad de registrarte.</string>
+    <string name="visitor_icon_desc">Icono visitante</string>
+
+    <!-- Collector profile -->
+    <string name="collector_title">Coleccionista</string>
+    <string name="collector_description">Gestiona tu colección, crea listas de deseos y conecta con otros amantes del vinilo.</string>
+    <string name="collector_icon_desc">Icono coleccionista</string>
 </resources>
