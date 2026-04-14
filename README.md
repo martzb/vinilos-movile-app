@@ -1,25 +1,28 @@
-# 🎵 Vinilos — Qué hace cada carpeta
+# Vinilos — App Android
 
-**Backend API:** `https://backvynils-alternos-production.up.railway.app`
+App móvil Android para explorar álbumes, artistas y coleccionistas de música.
+
+**Backend API:** `https://backvynils-alternos-production.up.railway.app`  
+**Stack:** Kotlin · Retrofit · Room · MVVM · Coroutines
 
 ---
 
-## Estructura general
+## Estructura del proyecto
 
 ```
 app/src/main/java/com/misw/vinilos/
 │
 ├── data/
-│   ├── model/
-│   ├── network/
-│   ├── database/
-│   │   └── dao/
-│   └── repository/
+│   ├── model/              ← Clases de datos (Album, Artist, Collector)
+│   ├── network/            ← Retrofit: ApiClient + VinilosApiService
+│   ├── database/           ← Room: VinilosDatabase
+│   │   └── dao/            ← Interfaces de acceso a SQLite local
+│   └── repository/         ← Decide entre API o caché local
 │
 ├── ui/
-│   ├── album/
-│   ├── artist/
-│   └── collector/
+│   ├── album/              ← HU01, HU02
+│   ├── artist/             ← HU03, HU04
+│   └── collector/          ← HU05, HU06
 │
 └── MainActivity.kt
 ```
@@ -28,134 +31,177 @@ app/src/main/java/com/misw/vinilos/
 
 ## Qué va en cada carpeta
 
-### 📁 data/model/
-Aquí van las clases que representan los datos que llegan del API.
-Cada clase tiene los mismos campos que devuelve el servidor en JSON.
+### `data/model/`
+Clases de datos que reflejan el JSON del servidor.
 
-**Ejemplo:** Album tiene id, name, cover, releaseDate, description, genre, recordLabel.
-
----
-
-### 📁 data/network/
-Aquí va todo lo relacionado con la conexión al servidor.
-
-- **VinilosApiService** → Define qué endpoints se pueden llamar (GET /albums, GET /musicians, etc.)
-- **ApiClient** → Configura Retrofit con la URL base del servidor
+| Clase | Campos principales |
+|-------|--------------------|
+| `Album` | id, name, cover, releaseDate, description, genre, recordLabel, tracks, performers, comments |
+| `Artist` | id, name, image, description, birthDate |
+| `Collector` | id, name, telephone, email |
 
 ---
 
-### 📁 data/database/
-Aquí va la base de datos local del teléfono (Room/SQLite).
-Sirve para guardar datos cuando no hay internet.
+### `data/network/`
+Todo lo relacionado con la conexión HTTP al servidor.
 
-- **VinilosDatabase** → Es la base de datos, como una caja que guarda todo localmente
-
----
-
-### 📁 data/database/dao/
-Aquí van las interfaces que definen qué operaciones se pueden hacer sobre la base de datos local.
-
-Cada DAO es responsable de una entidad: AlbumDao, ArtistDao, CollectorDao.
-Las operaciones típicas son: guardar, obtener todos, obtener por ID.
+| Archivo | Responsabilidad |
+|---------|----------------|
+| `VinilosApiService` | Define los endpoints (`@GET`, `@POST`) con Retrofit |
+| `ApiClient` | Singleton que construye y expone el servicio Retrofit |
 
 ---
 
-### 📁 data/repository/
-Aquí va la lógica que decide de dónde vienen los datos.
+### `data/database/`
+Base de datos local Room/SQLite para soporte offline.
 
-- Si hay internet → pide los datos al servidor
-- Si no hay internet → usa los datos guardados localmente
-
-Hay un Repository por cada tipo de dato: AlbumRepository, ArtistRepository, CollectorRepository.
-
----
-
-### 📁 ui/album/
-Todo lo relacionado con las pantallas de álbumes.
-
-| Archivo | Qué hace |
-|---------|----------|
-| AlbumFragment | Pantalla que muestra la lista de álbumes — HU01 |
-| AlbumDetailFragment | Pantalla que muestra el detalle de un álbum — HU02 |
-| AlbumViewModel | Tiene la lógica y expone los datos como LiveData |
-| AlbumAdapter | Le dice al RecyclerView cómo pintar cada álbum |
+| Archivo | Responsabilidad |
+|---------|----------------|
+| `VinilosDatabase` | Define la base de datos y sus entidades |
+| `dao/AlbumDao` | Operaciones sobre álbumes en SQLite |
+| `dao/ArtistDao` | Operaciones sobre artistas en SQLite |
+| `dao/CollectorDao` | Operaciones sobre coleccionistas en SQLite |
 
 ---
 
-### 📁 ui/artist/
-Todo lo relacionado con las pantallas de artistas.
-
-| Archivo | Qué hace |
-|---------|----------|
-| ArtistFragment | Pantalla que muestra la lista de artistas — HU03 |
-| ArtistDetailFragment | Pantalla que muestra el detalle de un artista — HU04 |
-| ArtistViewModel | Tiene la lógica y expone los datos como LiveData |
-| ArtistAdapter | Le dice al RecyclerView cómo pintar cada artista |
-
----
-
-### 📁 ui/collector/
-Todo lo relacionado con las pantallas de coleccionistas.
-
-| Archivo | Qué hace |
-|---------|----------|
-| CollectorFragment | Pantalla que muestra la lista de coleccionistas — HU05 |
-| CollectorDetailFragment | Pantalla que muestra el detalle de un coleccionista — HU06 |
-| CollectorViewModel | Tiene la lógica y expone los datos como LiveData |
-| CollectorAdapter | Le dice al RecyclerView cómo pintar cada coleccionista |
-
----
-
-### 📁 res/layout/
-Aquí van los archivos XML que definen cómo se ve cada pantalla visualmente.
-Un archivo por Fragment y uno por item del RecyclerView.
-
-### 📁 res/navigation/
-Aquí va el archivo que define cómo se navega entre pantallas.
-Es como un mapa de la app.
-
-### 📁 res/menu/
-Aquí va el menú de navegación inferior con los tabs de Álbumes, Artistas y Coleccionistas.
-
----
-
-## Quién hace qué
-
-| Responsable | Carpeta | Historias |
-|-------------|---------|-----------|
-| **Rubén** | `ui/album/` | HU01 — Catálogo álbumes, HU02 — Detalle álbum |
-| **Diego** | `ui/artist/` | HU03 — Listado artistas, HU04 — Detalle artista |
-| **David** | `ui/collector/` | HU05 — Listado coleccionistas, HU06 — Detalle coleccionista |
-| **Brian** | `data/` completo | Base de datos, API, modelos, repositorios |
-
----
-
-## Cómo fluyen los datos
+### `data/repository/`
+Capa que decide de dónde vienen los datos.
 
 ```
-Pantalla (Fragment)
-    ↓ observa cambios
-ViewModel
-    ↓ pide datos
-Repository
-    ↓ con internet       ↓ sin internet
-Servidor Railway      Base de datos local
+¿Hay internet?
+    SÍ  →  llama al servidor  →  guarda en caché local
+    NO  →  lee de SQLite local
 ```
 
-El Fragment nunca habla directamente con el servidor.
-Siempre pasa por el ViewModel y el Repository.
+| Archivo | Cubre |
+|---------|-------|
+| `AlbumRepository` | Albums |
+| `ArtistRepository` | Musicians / Bands |
+| `CollectorRepository` | Collectors |
+
+---
+
+### `ui/album/` · `ui/artist/` · `ui/collector/`
+Cada módulo de UI sigue la misma estructura:
+
+| Archivo | Rol |
+|---------|-----|
+| `*Fragment` | Pantalla de lista — observa LiveData del ViewModel |
+| `*DetailFragment` | Pantalla de detalle |
+| `*ViewModel` | Lógica de presentación — expone `LiveData` |
+| `*Adapter` | Pinta cada ítem en el `RecyclerView` |
+
+---
+
+## Responsabilidades del equipo
+
+| Integrante | Módulo | Historias |
+|------------|--------|-----------|
+| **Rubén** | `ui/album/` | HU01 — Catálogo de álbumes · HU02 — Detalle de álbum |
+| **Diego** | `ui/artist/` | HU03 — Listado de artistas · HU04 — Detalle de artista |
+| **David** | `ui/collector/` | HU05 — Listado de coleccionistas · HU06 — Detalle de coleccionista |
+| **Brian** | `data/` completo | Modelos · API · Room · Repositorios |
+
+---
+
+## Arquitectura MVVM
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                         VISTA (UI)                           │
+│                                                              │
+│   AlbumFragment      ArtistFragment      CollectorFragment   │
+│   AlbumDetail        ArtistDetail        CollectorDetail     │
+│   AlbumAdapter       ArtistAdapter       CollectorAdapter    │
+│                                                              │
+│   · Muestra datos en pantalla                                │
+│   · Observa LiveData del ViewModel                           │
+│   · Nunca llama al servidor directamente                     │
+└─────────────────────────┬────────────────────────────────────┘
+                          │ observa LiveData
+                          ▼
+┌──────────────────────────────────────────────────────────────┐
+│                       VIEWMODEL                              │
+│                                                              │
+│      AlbumViewModel   ArtistViewModel   CollectorViewModel   │
+│                                                              │
+│   · Recibe eventos de la Vista (click, scroll)               │
+│   · Pide datos al Repository                                 │
+│   · Expone resultados como LiveData                          │
+│   · No conoce la Vista ni el servidor                        │
+└─────────────────────────┬────────────────────────────────────┘
+                          │ llama métodos
+                          ▼
+┌──────────────────────────────────────────────────────────────┐
+│                      REPOSITORY                              │
+│                                                              │
+│    AlbumRepository   ArtistRepository   CollectorRepository  │
+│                                                              │
+│   · Decide de dónde vienen los datos                         │
+│   · Con internet → Service Adapter (Retrofit)                │
+│   · Sin internet → DAO local (Room)                          │
+└───────────────┬──────────────────────────┬───────────────────┘
+                │ con internet             │ sin internet
+                ▼                          ▼
+┌───────────────────────┐    ┌─────────────────────────────┐
+│    SERVICE ADAPTER    │    │         ROOM DAO             │
+│                       │    │                              │
+│  VinilosApiService    │    │  AlbumDao                   │
+│  ApiClient (Retrofit) │    │  ArtistDao                  │
+│                       │    │  CollectorDao                │
+│  Llama al servidor    │    │  Lee / escribe en SQLite     │
+│  vía HTTP             │    │  local del teléfono          │
+└──────────┬────────────┘    └─────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     SERVIDOR RAILWAY                         │
+│                                                              │
+│      https://backvynils-alternos-production.up.railway.app   │
+│                                                              │
+│                   NestJS + PostgreSQL                        │
+└──────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Flujo de datos paso a paso
+
+```
+1. Usuario abre la pantalla de álbumes
+         ↓
+2. AlbumFragment notifica al AlbumViewModel
+         ↓
+3. AlbumViewModel consulta al AlbumRepository
+         ↓
+         ├── SÍ hay internet ──→ GET /albums (Retrofit)
+         │                              ↓
+         │                       guarda en Room
+         │
+         └── NO hay internet ──→ AlbumDao.getAll() (SQLite)
+                                        ↓
+4. Datos llegan al ViewModel como LiveData
+         ↓
+5. AlbumFragment detecta el cambio y pinta la lista
+```
+
+> El Fragment **nunca** habla directamente con el servidor.  
+> Siempre pasa por ViewModel → Repository.
 
 ---
 
 ## Endpoints disponibles
 
-| Pantalla | Endpoint |
-|----------|----------|
-| HU01 — Lista álbumes | GET /albums |
-| HU02 — Detalle álbum | GET /albums/{id} |
-| HU03 — Lista artistas | GET /musicians |
-| HU04 — Detalle artista | GET /musicians/{id} |
-| HU05 — Lista coleccionistas | GET /collectors |
-| HU06 — Detalle coleccionista | GET /collectors/{id} |
-| HU07 — Crear álbum | POST /albums |
-| HU08 — Agregar track | POST /albums/{id}/tracks |
+| Historia | Método | Endpoint |
+|----------|--------|----------|
+| HU01 — Lista de álbumes | `GET` | `/albums` |
+| HU02 — Detalle de álbum | `GET` | `/albums/{id}` |
+| HU03 — Lista de artistas | `GET` | `/musicians` |
+| HU04 — Detalle de artista | `GET` | `/musicians/{id}` |
+| HU05 — Lista de coleccionistas | `GET` | `/collectors` |
+| HU06 — Detalle de coleccionista | `GET` | `/collectors/{id}` |
+| HU07 — Crear álbum | `POST` | `/albums` |
+| HU08 — Agregar track | `POST` | `/albums/{id}/tracks` |
+| HU09 — Comentar álbum | `POST` | `/albums/{id}/comments` |
+| HU11 — Álbumes de coleccionista | `GET` | `/collectors/{id}/albums` |
+| HU13 — Lista de premios | `GET` | `/prizes` |
