@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.misw.vinilos.R
 import com.misw.vinilos.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {
@@ -25,11 +27,11 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.cardVisitor.setOnClickListener {
-            // TODO: navegar al catálogo como visitante
+            findNavController().navigate(R.id.action_welcome_to_albums)
         }
 
         binding.cardCollector.setOnClickListener {
-            // TODO: navegar al catálogo como coleccionista
+            findNavController().navigate(R.id.action_welcome_to_albums)
         }
     }
 

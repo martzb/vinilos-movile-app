@@ -9,6 +9,18 @@
         android:id="@+id/welcomeFragment"
         android:name="com.misw.vinilos.ui.welcome.WelcomeFragment"
         android:label="Vinilos"
-        tools:layout="@layout/fragment_welcome" />
+        tools:layout="@layout/fragment_welcome">
+
+        <action
+            android:id="@+id/action_welcome_to_albums"
+            app:destination="@id/albumFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.misw.vinilos.ui.album.AlbumFragment"
+        android:label="Álbumes"
+        tools:layout="@layout/fragment_album_list" />
 
 </navigation>
