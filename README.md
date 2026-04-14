@@ -3,7 +3,7 @@
 App móvil Android para explorar álbumes, artistas y coleccionistas de música.
 
 **Backend API:** `https://backvynils-alternos-production.up.railway.app`  
-**Stack:** Kotlin · Retrofit · Room · MVVM · Coroutines
+**Stack:** Kotlin · Retrofit · MVVM · Coroutines
 
 ---
 
@@ -15,11 +15,10 @@ app/src/main/java/com/misw/vinilos/
 ├── data/
 │   ├── model/              ← Clases de datos (Album, Artist, Collector)
 │   ├── network/            ← Retrofit: ApiClient + VinilosApiService
-│   ├── database/           ← Room: VinilosDatabase
-│   │   └── dao/            ← Interfaces de acceso a SQLite local
-│   └── repository/         ← Decide entre API o caché local
+│   └── repository/         ← Llama a la API y expone los datos al ViewModel
 │
 ├── ui/
+│   ├── welcome/            ← Pantalla de selección de perfil
 │   ├── album/              ← HU01, HU02
 │   ├── artist/             ← HU03, HU04
 │   └── collector/          ← HU05, HU06
@@ -52,26 +51,8 @@ Todo lo relacionado con la conexión HTTP al servidor.
 
 ---
 
-### `data/database/`
-Base de datos local Room/SQLite para soporte offline.
-
-| Archivo | Responsabilidad |
-|---------|----------------|
-| `VinilosDatabase` | Define la base de datos y sus entidades |
-| `dao/AlbumDao` | Operaciones sobre álbumes en SQLite |
-| `dao/ArtistDao` | Operaciones sobre artistas en SQLite |
-| `dao/CollectorDao` | Operaciones sobre coleccionistas en SQLite |
-
----
-
 ### `data/repository/`
-Capa que decide de dónde vienen los datos.
-
-```
-¿Hay internet?
-    SÍ  →  llama al servidor  →  guarda en caché local
-    NO  →  lee de SQLite local
-```
+Capa intermedia entre el ViewModel y la API. Centraliza las llamadas a Retrofit y expone los datos como resultado suspendido.
 
 | Archivo | Cubre |
 |---------|-------|
@@ -110,6 +91,7 @@ Cada módulo de UI sigue la misma estructura:
 ┌──────────────────────────────────────────────────────────────┐
 │                         VISTA (UI)                           │
 │                                                              │
+│   WelcomeFragment                                            │
 │   AlbumFragment      ArtistFragment      CollectorFragment   │
 │   AlbumDetail        ArtistDetail        CollectorDetail     │
 │   AlbumAdapter       ArtistAdapter       CollectorAdapter    │
@@ -137,23 +119,20 @@ Cada módulo de UI sigue la misma estructura:
 │                                                              │
 │    AlbumRepository   ArtistRepository   CollectorRepository  │
 │                                                              │
-│   · Decide de dónde vienen los datos                         │
-│   · Con internet → Service Adapter (Retrofit)                │
-│   · Sin internet → DAO local (Room)                          │
-└───────────────┬──────────────────────────┬───────────────────┘
-                │ con internet             │ sin internet
-                ▼                          ▼
-┌───────────────────────┐    ┌─────────────────────────────┐
-│    SERVICE ADAPTER    │    │         ROOM DAO             │
-│                       │    │                              │
-│  VinilosApiService    │    │  AlbumDao                   │
-│  ApiClient (Retrofit) │    │  ArtistDao                  │
-│                       │    │  CollectorDao                │
-│  Llama al servidor    │    │  Lee / escribe en SQLite     │
-│  vía HTTP             │    │  local del teléfono          │
-└──────────┬────────────┘    └─────────────────────────────┘
-           │
-           ▼
+│   · Llama a la API vía Retrofit                              │
+│   · Expone los datos al ViewModel                            │
+└─────────────────────────┬────────────────────────────────────┘
+                          │
+                          ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    SERVICE ADAPTER                           │
+│                                                              │
+│              VinilosApiService + ApiClient                   │
+│                                                              │
+│              Llama al servidor vía HTTP (Retrofit)           │
+└─────────────────────────┬────────────────────────────────────┘
+                          │
+                          ▼
 ┌──────────────────────────────────────────────────────────────┐
 │                     SERVIDOR RAILWAY                         │
 │                                                              │
@@ -168,21 +147,19 @@ Cada módulo de UI sigue la misma estructura:
 ## Flujo de datos paso a paso
 
 ```
-1. Usuario abre la pantalla de álbumes
+1. Usuario selecciona perfil en WelcomeFragment
          ↓
-2. AlbumFragment notifica al AlbumViewModel
+2. Navega a la pantalla de álbumes (AlbumFragment)
          ↓
-3. AlbumViewModel consulta al AlbumRepository
+3. AlbumFragment notifica al AlbumViewModel
          ↓
-         ├── SÍ hay internet ──→ GET /albums (Retrofit)
-         │                              ↓
-         │                       guarda en Room
-         │
-         └── NO hay internet ──→ AlbumDao.getAll() (SQLite)
-                                        ↓
-4. Datos llegan al ViewModel como LiveData
+4. AlbumViewModel consulta al AlbumRepository
          ↓
-5. AlbumFragment detecta el cambio y pinta la lista
+5. AlbumRepository llama GET /albums vía Retrofit
+         ↓
+6. Datos llegan al ViewModel como LiveData
+         ↓
+7. AlbumFragment detecta el cambio y pinta la lista
 ```
 
 > El Fragment **nunca** habla directamente con el servidor.  
