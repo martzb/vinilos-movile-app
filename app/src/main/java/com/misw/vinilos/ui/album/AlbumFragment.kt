@@ -19,8 +19,23 @@ class AlbumFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AlbumViewModel by viewModels()
-    private val trendingAdapter = AlbumTrendingAdapter()
-    private val recentAdapter = AlbumRecentAdapter()
+
+    // Adaptadores reciben un callback de click
+    private val trendingAdapter = AlbumTrendingAdapter { album ->
+        val bundle = Bundle().apply {
+            putInt("albumId", album.id)
+        }
+        findNavController().navigate(R.id.albumDetailFragment, bundle)
+    }
+
+    private val recentAdapter = AlbumRecentAdapter { album ->
+        val bundle = Bundle().apply {
+            putInt("albumId", album.id)
+        }
+        findNavController().navigate(R.id.albumDetailFragment, bundle)
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
