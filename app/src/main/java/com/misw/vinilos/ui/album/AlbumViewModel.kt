@@ -21,6 +21,9 @@ class AlbumViewModel : ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> get() = _error
 
+    private val _albumDetail = MutableLiveData<Album>()
+    val albumDetail: LiveData<Album> get() = _albumDetail
+
     init {
         loadAlbums()
     }
@@ -38,4 +41,19 @@ class AlbumViewModel : ViewModel() {
             }
         }
     }
+
+    fun loadAlbumDetail(id: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            try {
+                _albumDetail.value = repository.getAlbumById(id)
+            } catch (e: Exception) {
+                _error.value = "No se pudo cargar el detalle del álbum."
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
 }

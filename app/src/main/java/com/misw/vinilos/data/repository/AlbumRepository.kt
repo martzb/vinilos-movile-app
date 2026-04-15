@@ -8,6 +8,7 @@ import com.misw.vinilos.data.network.ApiClient
  * Expone los datos del servidor al ViewModel siguiendo el patrón Repository.
  *
  * Issue: [HU01] Consumir endpoint GET /albums #2
+ * Issue: [HU01] Consumir endpoint GET /albums/{id}
  */
 class AlbumRepository {
 
@@ -19,4 +20,9 @@ class AlbumRepository {
     suspend fun getAlbums(): List<Album> {
         return ApiClient.retrofitService.getAlbums()
     }
+
+    suspend fun getAlbumById(id: Int): Album {
+        return ApiClient.retrofitService.getAlbum(id)
+    }
+
 }
