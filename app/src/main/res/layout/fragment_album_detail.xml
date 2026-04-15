@@ -9,6 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Botón de regreso -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Regresar" />
+
         <!-- Portada del álbum -->
         <ImageView
             android:id="@+id/albumCover"

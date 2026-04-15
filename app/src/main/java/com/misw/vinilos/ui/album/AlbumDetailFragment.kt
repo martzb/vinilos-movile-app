@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.misw.vinilos.databinding.FragmentAlbumDetailBinding
 
 class AlbumDetailFragment : Fragment() {
@@ -15,7 +14,6 @@ class AlbumDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AlbumViewModel by viewModels()
-    private val args: AlbumDetailFragmentArgs by navArgs() // recibe albumId
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,17 +26,25 @@ class AlbumDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Recibir argumento manualmente desde el Bundle
+        val albumId = arguments?.getInt("albumId") ?: -1
+
         // Cargar detalle
-        viewModel.loadAlbumDetail(args.albumId)
+        viewModel.loadAlbumDetail(albumId)
 
         // Observar LiveData
         viewModel.albumDetail.observe(viewLifecycleOwner) { album ->
             binding.albumTitle.text = album.name
-            binding.albumArtist.text = album.performers.joinToString { it.name }
+            binding.albumArtist.text = album.performers.joinToString { performer ->
+                if (performer is Map<*, *>) performer["name"] as? String ?: "" else ""
+            }
             binding.albumYear.text = album.releaseDate
             binding.albumGenre.text = album.genre
             binding.albumDescription.text = album.description
-            // Aquí luego añadimos portada y tracks
+        }
+
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
