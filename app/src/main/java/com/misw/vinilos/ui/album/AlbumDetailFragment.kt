@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.misw.vinilos.R
 import com.misw.vinilos.databinding.FragmentAlbumDetailBinding
 
 class AlbumDetailFragment : Fragment() {
@@ -41,6 +43,14 @@ class AlbumDetailFragment : Fragment() {
             binding.albumYear.text = album.releaseDate
             binding.albumGenre.text = album.genre
             binding.albumDescription.text = album.description
+
+            // Cargar portada con Glide (igual que en AlbumRecentAdapter)
+            Glide.with(binding.albumCover.context)
+                .load(album.cover)
+                .placeholder(R.drawable.ic_vinyl_record)
+                .error(R.drawable.ic_vinyl_record)
+                .centerCrop()
+                .into(binding.albumCover)
         }
 
         binding.btnBack.setOnClickListener {
