@@ -46,14 +46,11 @@ jobs:
 
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
-        working-directory: vinilos-movile-app
 
       - name: Verificar que compila
-        working-directory: vinilos-movile-app
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Ejecutar unit tests
-        working-directory: vinilos-movile-app
         run: ./gradlew test --stacktrace
 
       - name: Subir reporte de unit tests
@@ -61,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: vinilos-movile-app/app/build/reports/tests/
+          path: app/build/reports/tests/
           retention-days: 7
 
       - name: Habilitar KVM (aceleración de emulador)
@@ -100,7 +97,6 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          working-directory: vinilos-movile-app
           script: ./gradlew connectedAndroidTest --stacktrace
 
       - name: Subir reporte Espresso
@@ -109,13 +105,12 @@ jobs:
         with:
           name: espresso-test-results
           path: |
-            vinilos-movile-app/app/build/reports/androidTests/connected/
-            vinilos-movile-app/app/build/outputs/androidTest-results/
+            app/build/reports/androidTests/connected/
+            app/build/outputs/androidTest-results/
           retention-days: 7
 
   # ─────────────────────────────────────────────
   # JOB 2: Verificar que el APK release se construye
-  # (equivalente al docker-check del CI de referencia)
   # ─────────────────────────────────────────────
   apk-check:
     name: APK Release Check
@@ -137,14 +132,11 @@ jobs:
 
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
-        working-directory: vinilos-movile-app
 
       - name: Construir APK release
-        working-directory: vinilos-movile-app
         run: ./gradlew assembleRelease --stacktrace
 
       - name: Verificar que el APK existe
-        working-directory: vinilos-movile-app
         run: |
           APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
           if [ -z "$APK_PATH" ]; then
@@ -158,7 +150,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vinilos-release-apk
-          path: vinilos-movile-app/app/build/outputs/apk/release/*.apk
+          path: app/build/outputs/apk/release/*.apk
           retention-days: 7
 
   # ─────────────────────────────────────────────
@@ -211,13 +203,13 @@ jobs:
           git checkout -b "$RELEASE_BRANCH"
 
           # Actualizar versionName y versionCode en build.gradle.kts
-          sed -i "s/versionName = \".*\"/versionName = \"$VERSION\"/" vinilos-movile-app/app/build.gradle.kts
-          CURRENT_CODE=$(grep "versionCode" vinilos-movile-app/app/build.gradle.kts | grep -o '[0-9]*')
+          sed -i "s/versionName = \".*\"/versionName = \"$VERSION\"/" app/build.gradle.kts
+          CURRENT_CODE=$(grep "versionCode" app/build.gradle.kts | grep -o '[0-9]*')
           NEW_CODE=$((CURRENT_CODE + 1))
-          sed -i "s/versionCode = $CURRENT_CODE/versionCode = $NEW_CODE/" vinilos-movile-app/app/build.gradle.kts
+          sed -i "s/versionCode = $CURRENT_CODE/versionCode = $NEW_CODE/" app/build.gradle.kts
 
-          echo "$VERSION" > vinilos-movile-app/VERSION.txt
-          git add vinilos-movile-app/app/build.gradle.kts vinilos-movile-app/VERSION.txt
+          echo "$VERSION" > VERSION.txt
+          git add app/build.gradle.kts VERSION.txt
           git commit -m "release: prepare v$VERSION"
           git push -u origin "$RELEASE_BRANCH"
 
@@ -240,7 +232,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          APK_PATH=$(find vinilos-movile-app/app/build/outputs/apk/release -name "*.apk" 2>/dev/null | head -1)
+          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" 2>/dev/null | head -1)
           if [ -n "$APK_PATH" ]; then
             gh release upload "v$VERSION" "$APK_PATH"
           fi
