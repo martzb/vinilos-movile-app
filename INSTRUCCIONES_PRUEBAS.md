@@ -18,6 +18,10 @@ Validación programática de la UI directamente sobre el ciclo de vida de Androi
    ```bash
    ./gradlew connectedAndroidTest
    ```
+   > **Nota de compatibilidad (Error 26):** Si presenta el error `FAILURE: Build failed with an exception. What went wrong: 26`, significa que su terminal está utilizando una versión de Java demasiado reciente (ej. Java 26) que no es compatible con el compilador. Para solucionarlo, ejecute el comando asignando el JDK integrado de Android Studio (ejemplo en Mac):
+   > ```bash
+   > export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" && ./gradlew connectedAndroidTest
+   > ```
 3. **Resultado Esperado:** Verificará el flujo del catálogo, el scroll y la extracción de datos de las tarjetas directamente en el dispositivo.
 
 ---
