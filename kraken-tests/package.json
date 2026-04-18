@@ -1,0 +1,12 @@
+{
+  "name": "kraken-tests",
+  "version": "1.0.0",
+  "description": "Pruebas E2E de la aplicacion Vinilos usando Kraken",
+  "main": "index.js",
+  "scripts": {
+    "test": "kraken-node run"
+  },
+  "dependencies": {
+    "kraken-node": "^1.0.24"
+  }
+}
