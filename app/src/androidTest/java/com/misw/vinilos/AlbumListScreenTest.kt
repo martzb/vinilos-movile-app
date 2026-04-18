@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.recyclerview.widget.RecyclerView
@@ -77,5 +78,34 @@ class AlbumListScreenTest {
         // Al volver atrás, la tarjeta de visitante vuelve a ser visible
         onView(withId(R.id.card_visitor))
             .check(matches(isDisplayed()))
+    }
+
+    // ── Validación de Datos y Scroll ──────────────────────────────────────
+
+    @Test
+    fun albumList_cardShowsData() {
+        navigateToAlbumList()
+        
+        // Espera a que carguen los álbumes
+        Thread.sleep(5000)
+
+        // Verifica que la lista en tendencia contiene cards que muestran el nombre y artista
+        onView(withId(R.id.rv_trending))
+            .check(matches(hasDescendant(withId(R.id.tv_album_name))))
+        
+        onView(withId(R.id.rv_trending))
+            .check(matches(hasDescendant(withId(R.id.tv_album_artist))))
+    }
+
+    @Test
+    fun albumList_scrollsCorrectly() {
+        navigateToAlbumList()
+        
+        // Espera a que carguen los álbumes
+        Thread.sleep(5000)
+
+        // Verifica el scroll navegando hacia la posición 5 de la lista
+        onView(withId(R.id.rv_trending))
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5))
     }
 }

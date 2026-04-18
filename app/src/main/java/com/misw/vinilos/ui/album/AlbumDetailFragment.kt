@@ -34,15 +34,27 @@ class AlbumDetailFragment : Fragment() {
         // Cargar detalle
         viewModel.loadAlbumDetail(albumId)
 
+        val trackAdapter = TrackAdapter()
+        binding.tracksRecyclerView.apply {
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+            adapter = trackAdapter
+        }
+
         // Observar LiveData
         viewModel.albumDetail.observe(viewLifecycleOwner) { album ->
             binding.albumTitle.text = album.name
-            binding.albumArtist.text = album.performers.joinToString { performer ->
-                if (performer is Map<*, *>) performer["name"] as? String ?: "" else ""
-            }
-            binding.albumYear.text = album.releaseDate
-            binding.albumGenre.text = album.genre
+            
+            val artistName = album.performers.joinToString { it.name }
+            binding.albumArtist.text = artistName
+            
+            val year = album.releaseDate.takeIf { it.length >= 4 }?.substring(0, 4) ?: album.releaseDate
+            binding.albumYear.text = "$year • ${album.recordLabel}"
+            
+            binding.albumGenre.visibility = View.GONE
             binding.albumDescription.text = album.description
+
+            trackAdapter.albumArtist = artistName
+            trackAdapter.submitList(album.tracks)
 
             // Cargar portada con Glide (igual que en AlbumRecentAdapter)
             Glide.with(binding.albumCover.context)

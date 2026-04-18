@@ -1,0 +1,6 @@
+{
+  "apk_path": "../app/build/intermediates/apk/debug/app-debug.apk",
+  "apk_package": "com.misw.vinilos",
+  "apk_launch_activity": "com.misw.vinilos.MainActivity",
+  "type": "singular"
+}
