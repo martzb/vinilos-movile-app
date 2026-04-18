@@ -7,6 +7,10 @@
     "test": "kraken-node run"
   },
   "dependencies": {
+    "appium": "^1.22.3",
     "kraken-node": "^1.0.24"
+  },
+  "devDependencies": {
+    "appium-uiautomator2-driver": "^7.1.2"
   }
 }

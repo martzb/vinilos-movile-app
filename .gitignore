@@ -58,3 +58,13 @@ google-services.json
 
 # Kotlin
 *.kotlin_module
+
+# node_modules
+node_modules/
+
+# Pruebas y Reportes (Kraken y Monkey Testing)
+kraken-tests/node_modules/
+kraken-tests/reports/
+kraken-tests/.kraken/
+monkey_report.txt
+logcat_report.txt
