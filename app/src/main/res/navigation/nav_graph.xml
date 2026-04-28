@@ -51,4 +51,10 @@
         android:label="Artistas"
         tools:layout="@layout/fragment_musician_list" />
 
+    <fragment
+        android:id="@+id/collectorFragment"
+        android:name="com.misw.vinilos.ui.collector.CollectorFragment"
+        android:label="Coleccionistas"
+        tools:layout="@layout/fragment_collector_list" />
+
 </navigation>

@@ -25,4 +25,7 @@
     <!-- Musician list -->
     <string name="artists_title">Artistas</string>
     <string name="musician_photo_desc">Foto del artista</string>
+
+    <!-- Collector list -->
+    <string name="collectors_title">Coleccionistas</string>
 </resources>
