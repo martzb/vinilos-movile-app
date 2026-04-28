@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -39,6 +40,15 @@ class CollectorFragment : Fragment() {
 
         viewModel.collectors.observe(viewLifecycleOwner) { collectors ->
             adapter.submitList(collectors)
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.isVisible = loading
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
+            binding.tvError.isVisible = errorMsg != null
+            binding.tvError.text = errorMsg
         }
     }
 
