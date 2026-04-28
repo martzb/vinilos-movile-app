@@ -21,4 +21,8 @@
     <string name="see_all">Ver todos</string>
     <string name="recently_added">Agregados recientemente</string>
     <string name="fab_add_desc">Agregar álbum</string>
+
+    <!-- Musician list -->
+    <string name="artists_title">Artistas</string>
+    <string name="musician_photo_desc">Foto del artista</string>
 </resources>

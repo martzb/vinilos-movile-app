@@ -45,4 +45,10 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/musicianFragment"
+        android:name="com.misw.vinilos.ui.musician.MusicianFragment"
+        android:label="Artistas"
+        tools:layout="@layout/fragment_musician_list" />
+
 </navigation>
