@@ -28,7 +28,14 @@ class CollectorAdapter : ListAdapter<Collector, CollectorAdapter.ViewHolder>(Dif
         fun bind(collector: Collector) {
             binding.tvCollectorName.text = collector.name
             binding.tvCollectorEmail.text = collector.email
-            binding.tvCollectorAvatar.text = collector.name.first().uppercaseChar().toString()
+            
+            // Load a generated circular avatar based on the collector's ID
+            val avatarUrl = "https://i.pravatar.cc/150?u=${collector.id}"
+            
+            com.bumptech.glide.Glide.with(binding.root.context)
+                .load(avatarUrl)
+                .transform(com.bumptech.glide.load.resource.bitmap.CircleCrop())
+                .into(binding.ivCollectorAvatar)
         }
     }
 

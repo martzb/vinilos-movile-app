@@ -28,4 +28,6 @@
 
     <!-- Collector list -->
     <string name="collectors_title">Coleccionistas</string>
+    <string name="collector_photo_desc">Foto del coleccionista</string>
+    <string name="go_to_detail">Ir al detalle</string>
 </resources>
