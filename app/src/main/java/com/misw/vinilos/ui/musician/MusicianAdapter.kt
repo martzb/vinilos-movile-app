@@ -30,6 +30,7 @@ class MusicianAdapter : ListAdapter<Musician, MusicianAdapter.ViewHolder>(DiffCa
 
         fun bind(musician: Musician) {
             binding.tvMusicianName.text = musician.name
+            binding.tvMusicianType.text = if (musician.birthDate != null) "Músico" else "Banda"
 
             Glide.with(binding.ivMusicianPhoto.context)
                 .load(musician.image)
