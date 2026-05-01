@@ -52,6 +52,18 @@
         tools:layout="@layout/fragment_musician_list" />
 
     <fragment
+        android:id="@+id/musicianDetailFragment"
+        android:name="com.misw.vinilos.ui.musician.MusicianDetailFragment"
+        android:label="Detalle de Artista"
+        tools:layout="@layout/fragment_musician_detail">
+
+        <argument
+            android:name="musicianId"
+            app:argType="integer" />
+    </fragment>
+
+
+    <fragment
         android:id="@+id/collectorFragment"
         android:name="com.misw.vinilos.ui.collector.CollectorFragment"
         android:label="Coleccionistas"

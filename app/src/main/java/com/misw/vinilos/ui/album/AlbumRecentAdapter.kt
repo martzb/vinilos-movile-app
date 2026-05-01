@@ -11,7 +11,7 @@ import com.misw.vinilos.data.model.Album
 import com.misw.vinilos.databinding.ItemAlbumRecentBinding
 
 class AlbumRecentAdapter(
-    private val onItemClick: (Album) -> Unit
+    private val onItemClick: ((Album) -> Unit)? = null
 ) : ListAdapter<Album, AlbumRecentAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +27,7 @@ class AlbumRecentAdapter(
 
     class ViewHolder(
         private val binding: ItemAlbumRecentBinding,
-        private val onItemClick: (Album) -> Unit
+        private val onItemClick: ((Album) -> Unit)?
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(album: Album) {
@@ -48,9 +48,9 @@ class AlbumRecentAdapter(
                 .centerCrop()
                 .into(binding.ivCover)
 
-            // Click
+            // Si no quieres clics, simplemente no se hace nada
             binding.root.setOnClickListener {
-                onItemClick(album)
+                onItemClick?.invoke(album)
             }
         }
     }
@@ -60,4 +60,3 @@ class AlbumRecentAdapter(
         override fun areContentsTheSame(oldItem: Album, newItem: Album) = oldItem == newItem
     }
 }
-

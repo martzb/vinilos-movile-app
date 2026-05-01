@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.misw.vinilos.R
 import com.misw.vinilos.databinding.FragmentMusicianListBinding
 
 class MusicianFragment : Fragment() {
@@ -17,7 +18,7 @@ class MusicianFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MusicianViewModel by viewModels()
-    private val adapter = MusicianAdapter()
+    private lateinit var adapter: MusicianAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +31,13 @@ class MusicianFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = MusicianAdapter { musician ->
+            val bundle = Bundle().apply {
+                putInt("musicianId", musician.id)
+            }
+            findNavController().navigate(R.id.musicianDetailFragment, bundle)
+        }
 
         binding.rvMusicians.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvMusicians.adapter = adapter

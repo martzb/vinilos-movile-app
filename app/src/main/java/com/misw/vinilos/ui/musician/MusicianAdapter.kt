@@ -11,13 +11,15 @@ import com.misw.vinilos.R
 import com.misw.vinilos.data.model.Musician
 import com.misw.vinilos.databinding.ItemMusicianBinding
 
-class MusicianAdapter : ListAdapter<Musician, MusicianAdapter.ViewHolder>(DiffCallback()) {
+class MusicianAdapter(
+    private val onItemClick: (Musician) -> Unit
+) : ListAdapter<Musician, MusicianAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemMusicianBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ViewHolder(binding)
+        return ViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -25,7 +27,8 @@ class MusicianAdapter : ListAdapter<Musician, MusicianAdapter.ViewHolder>(DiffCa
     }
 
     class ViewHolder(
-        private val binding: ItemMusicianBinding
+        private val binding: ItemMusicianBinding,
+        private val onItemClick: (Musician) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(musician: Musician) {
@@ -38,6 +41,10 @@ class MusicianAdapter : ListAdapter<Musician, MusicianAdapter.ViewHolder>(DiffCa
                 .error(R.drawable.ic_person)
                 .transform(CircleCrop())
                 .into(binding.ivMusicianPhoto)
+
+            binding.root.setOnClickListener {
+                onItemClick(musician)
+            }
         }
     }
 
