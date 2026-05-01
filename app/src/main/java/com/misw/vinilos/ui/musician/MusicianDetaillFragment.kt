@@ -35,7 +35,7 @@ class MusicianDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvAlbums.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAlbums.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvAlbums.adapter = albumAdapter
 
         val musicianId = arguments?.getInt("musicianId") ?: -1
@@ -57,6 +57,8 @@ class MusicianDetailFragment : Fragment() {
                 .error(R.drawable.ic_person)
                 .centerCrop()
                 .into(binding.ivPhoto)
+
+            albumAdapter.submitList(musician.albums)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->

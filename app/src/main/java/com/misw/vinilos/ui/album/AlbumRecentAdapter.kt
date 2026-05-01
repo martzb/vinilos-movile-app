@@ -33,11 +33,11 @@ class AlbumRecentAdapter(
         fun bind(album: Album) {
             binding.tvAlbumName.text = album.name
 
-            val artistName = if (album.performers.isNotEmpty()) {
-                val first = album.performers.first()
-                if (first is Map<*, *>) first["name"] as? String ?: "" else ""
+            val safePerformers = album.performers ?: emptyList()
+            val artistName = if (safePerformers.isNotEmpty()) {
+                safePerformers.first().name
             } else {
-                album.recordLabel
+                album.recordLabel ?: "Unknown"
             }
             binding.tvAlbumArtist.text = artistName
 
