@@ -20,7 +20,6 @@ class MusicianDetailFragment : Fragment() {
 
     private val viewModel: MusicianDetailViewModel by viewModels()
 
-    // Ahora el adapter no exige onItemClick
     private val albumAdapter = AlbumRecentAdapter()
 
     override fun onCreateView(
@@ -35,7 +34,7 @@ class MusicianDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvAlbums.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvAlbums.layoutManager = LinearLayoutManager(requireContext())
         binding.rvAlbums.adapter = albumAdapter
 
         val musicianId = arguments?.getInt("musicianId") ?: -1
