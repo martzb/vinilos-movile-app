@@ -91,6 +91,7 @@ sonar {
     properties {
         property("sonar.projectKey", "organizacion-alternos_vinilos-android")
         property("sonar.organization", "organizacion-alternos")
+        property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sources", "src/main")
         property("sonar.tests", "src/test,src/androidTest")
         property("sonar.java.source", "11")
