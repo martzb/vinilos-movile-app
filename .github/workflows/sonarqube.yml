@@ -6,16 +6,16 @@ on:
       - main
       - develop
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   sonarqube:
-    name: Análisis SonarQube
+    name: Build and analyze
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -31,20 +31,24 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cachear Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle
 
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
 
-      - name: Compilar proyecto
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Ejecutar unit tests
-        run: ./gradlew test --stacktrace
-
-      - name: Ejecutar análisis SonarQube
+      - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew :app:sonar --stacktrace
+        run: ./gradlew build sonar --info

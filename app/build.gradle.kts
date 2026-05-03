@@ -89,14 +89,10 @@ dependencies {
 
 sonar {
     properties {
-        property("sonar.projectKey", "vinilos-android")
-        property("sonar.projectName", "Vinilos Mobile App")
-        property("sonar.host.url", System.getenv("SONAR_HOST_URL") ?: "http://localhost:9000")
-        property("sonar.token", System.getenv("SONAR_TOKEN") ?: "")
+        property("sonar.projectKey", "organizacion-alternos_vinilos-android")
+        property("sonar.organization", "organizacion-alternos")
         property("sonar.sources", "src/main")
         property("sonar.tests", "src/test,src/androidTest")
         property("sonar.java.source", "11")
-        property("sonar.coverage.jacoco.xmlReportPaths",
-            "build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.xml")
     }
 }
