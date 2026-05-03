@@ -75,4 +75,5 @@ class AlbumDisplayUtilsTest {
         val album = makeAlbum(performers = emptyList(), recordLabel = "")
         assertEquals("", AlbumDisplayUtils.resolveArtistForRecent(album))
     }
+
 }

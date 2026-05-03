@@ -35,16 +35,16 @@ class MusicianDetailScreenTest {
         onView(withId(R.id.musicianFragment)).perform(click())
 
         // Esperar a que la API cargue los datos de la lista
-        Thread.sleep(3000)
+        Thread.sleep(8000)
 
         // Clic en el primer artista de la lista (Rubén Blades u otro)
         onView(withId(R.id.rv_musicians))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
             )
-            
+
         // Espera de seguridad a que cargue el detalle del artista desde Retrofit
-        Thread.sleep(3000)
+        Thread.sleep(5000)
     }
 
     @Test
