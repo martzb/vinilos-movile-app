@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.sonarqube")
+    id("jacoco")
 }
 
 android {
@@ -11,8 +13,8 @@ android {
         applicationId = "com.misw.vinilos"
         minSdk = 21
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.0.1"
+        versionCode = 4
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,6 +32,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -59,6 +64,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("io.mockk:mockk:1.13.10")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.espresso.contrib)
@@ -84,4 +92,33 @@ dependencies {
 
     // Glide — carga de imágenes desde URL
     implementation("com.github.bumptech.glide:glide:4.16.0")
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+    reports {
+        xml.required.set(true)
+        xml.outputLocation.set(file("${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport.xml"))
+    }
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(
+        fileTree("${layout.buildDirectory.get()}/intermediates/javac/debug/compileDebugJavaWithJavac/classes") +
+        fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug")
+    )
+    executionData.setFrom(
+        fileTree(layout.buildDirectory.get()) { include("**/*.exec", "**/*.ec") }
+    )
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "organizacion-alternos_vinilos-android")
+        property("sonar.organization", "organizacion-alternos")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.sources", "src/main")
+        property("sonar.tests", "src/test,src/androidTest")
+        property("sonar.java.source", "11")
+        property("sonar.coverage.jacoco.xmlReportPaths",
+            "build/reports/jacoco/jacocoTestReport.xml")
+    }
 }

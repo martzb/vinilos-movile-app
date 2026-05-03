@@ -8,4 +8,8 @@ class MusicianRepository {
     suspend fun getMusicians(): List<Musician> {
         return ApiClient.retrofitService.getMusicians()
     }
+
+    suspend fun getMusician(musicianId: Int): Musician {
+        return ApiClient.retrofitService.getMusician(musicianId)
+    }
 }

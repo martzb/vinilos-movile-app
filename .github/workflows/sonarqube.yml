@@ -1,0 +1,65 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  sonarqube:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Dar permisos a gradlew
+        run: chmod +x gradlew
+
+      - name: Ejecutar tests con cobertura
+        run: ./gradlew :app:jacocoTestReport
+
+      - name: Verificar reporte JaCoCo generado
+        run: |
+          echo "=== Archivos XML de JaCoCo ==="
+          find app/build -name "*.xml" | grep -i jacoco || echo "No XML encontrado"
+          echo "=== Archivos de ejecución (.ec/.exec) ==="
+          find app/build -name "*.ec" -o -name "*.exec" || echo "No .ec/.exec encontrado"
+          echo "=== Estructura build/reports ==="
+          find app/build/reports -type f | head -30 || echo "No hay reportes"
+
+      - name: Ejecutar análisis SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew :app:sonar --info

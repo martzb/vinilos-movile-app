@@ -52,7 +52,10 @@ Validación orientada a comportamiento (BDD) utilizando escenarios Gherkin.
    > *(En Windows este error es poco común al no existir `sudo`, pero en caso de ocurrir por caché corrupto, ejecute la terminal como Administrador y limpie la caché con `npm cache clean --force`)*
    > 
    > **Aviso de dependencias / Vulnerabilidades:** Es normal que NPM reporte advertencias de paquetes deprecados (ej. `npm warn deprecated...`) o vulnerabilidades (ej. `15 vulnerabilities`). Como esto es un entorno de pruebas E2E (testing local) y no un servidor de producción, estas advertencias no representan riesgos ni afectan la ejecución de Kraken. **Por favor ignórelas; no es necesario hacer `npm audit fix`.**
-3. **Configuración del Dispositivo:** Kraken utiliza el archivo `mobile.json` (ya incluido en el repositorio) para saber qué aplicación probar. Este archivo asume que la aplicación ya fue auto-construida al menos una vez (ej. ejecutando el Paso 1) para que encuentre la APK en la ruta `app/build/intermediates/apk/debug/app-debug.apk`.
+3. **Generación del APK (Configuración del Dispositivo):** Kraken utiliza el archivo `mobile.json` (ya incluido) para localizar el APK de pruebas en la ruta `app/build/outputs/apk/debug/app-debug.apk`. Antes de correr Kraken, asegúrese de generar una construcción limpia desde la **raíz del proyecto** (para evitar el error `INSTALL_FAILED_TEST_ONLY` derivado de compilaciones de IDE):
+   ```bash
+   ./gradlew clean assembleDebug
+   ```
 4. Ejecute la batería de escenarios:
    ```bash
    npm test
@@ -69,7 +72,7 @@ Validación orientada a comportamiento (BDD) utilizando escenarios Gherkin.
    > $env:ANDROID_HOME="$env:LOCALAPPDATA\Android\Sdk" ; $env:Path += ";$env:ANDROID_HOME\platform-tools" ; npm test
    > ```
    *(Este comando es un alias de `kraken-node run` configurado en el `package.json`)*
-4. **Resultado Esperado:** Kraken se conectará a Appium/UiAutomator y ejecutará visualmente los escenarios `.feature` enfocados en las Historias de Usuario HU01 y HU02.
+4. **Resultado Esperado:** Kraken se conectará a Appium/UiAutomator y ejecutará visualmente todos los escenarios `.feature` correspondientes a las Historias de Usuario integradas actualmente en el proyecto.
    > **Nota Técnica (Selectores y Scroll):** Para solventar que Appium requiere el *Package Name* completo para resolver `resourceId`, los *Step Definitions* de Kraken (`features/mobile/step_definitions/step.js`) fueron personalizados utilizando expresiones regulares en UiAutomator (`new UiSelector().resourceIdMatches(".*id/${id}")`). Además, de que se implementó el soporte nativo de *Scroll* de Android usando `UiScrollable.scrollForward()`.
 
 ---
@@ -85,7 +88,7 @@ Pruebas de estrés enviando pseudo-eventos aleatorios para detectar fugas de mem
    ```
    > **Para usuarios Windows (PowerShell nativo):**
    ```powershell
-   adb shell monkey -p com.misw.vinilos --throttle 250 -v 2000 > monkey_report.txt ; adb logcat -d > logcat_report.txt
+   adb shell monkey -p com.misw.vinilos --pct-syskeys 0 --throttle 250 -v 2000 > monkey_report.txt ; adb logcat -d > logcat_report.txt
    ```
 3. **Resultado Esperado:** El dispositivo recibirá 2,000 eventos rápidos de forma ininterrumpida. Al finalizar, el script volcará los resultados en dos archivos generados automáticamente (`monkey_report.txt` y `logcat_report.txt`).
 

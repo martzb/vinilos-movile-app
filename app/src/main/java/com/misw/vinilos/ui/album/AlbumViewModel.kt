@@ -8,9 +8,9 @@ import com.misw.vinilos.data.model.Album
 import com.misw.vinilos.data.repository.AlbumRepository
 import kotlinx.coroutines.launch
 
-class AlbumViewModel : ViewModel() {
-
-    private val repository = AlbumRepository()
+class AlbumViewModel(
+    private val repository: AlbumRepository = AlbumRepository()
+) : ViewModel() {
 
     private val _albums = MutableLiveData<List<Album>>()
     val albums: LiveData<List<Album>> get() = _albums

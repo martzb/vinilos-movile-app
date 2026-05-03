@@ -33,7 +33,7 @@ class AlbumTrendingAdapter(
         fun bind(album: Album) {
             binding.tvAlbumName.text = album.name
             binding.tvGenre.text = album.genre
-            binding.tvAlbumArtist.text = extractArtistName(album)
+            binding.tvAlbumArtist.text = AlbumDisplayUtils.extractArtistName(album)
 
             Glide.with(binding.ivCover.context)
                 .load(album.cover)
@@ -55,8 +55,3 @@ class AlbumTrendingAdapter(
 }
 
 
-private fun extractArtistName(album: Album): String {
-    if (album.performers.isEmpty()) return album.recordLabel
-    val first = album.performers.first()
-    return if (first is Map<*, *>) first["name"] as? String ?: "" else ""
-}
