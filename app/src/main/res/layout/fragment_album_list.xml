@@ -117,7 +117,7 @@
                 android:id="@+id/rv_recent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="14dp"
                 android:paddingBottom="80dp"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false" />
