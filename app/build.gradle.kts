@@ -94,6 +94,22 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 }
 
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+    reports {
+        xml.required.set(true)
+        xml.outputLocation.set(file("${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport.xml"))
+    }
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(
+        fileTree("${layout.buildDirectory.get()}/intermediates/javac/debug/compileDebugJavaWithJavac/classes") +
+        fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug")
+    )
+    executionData.setFrom(
+        fileTree(layout.buildDirectory.get()) { include("**/*.exec", "**/*.ec") }
+    )
+}
+
 sonar {
     properties {
         property("sonar.projectKey", "organizacion-alternos_vinilos-android")
@@ -103,6 +119,6 @@ sonar {
         property("sonar.tests", "src/test,src/androidTest")
         property("sonar.java.source", "11")
         property("sonar.coverage.jacoco.xmlReportPaths",
-            "build/reports/coverage/test/debug/report.xml")
+            "build/reports/jacoco/jacocoTestReport.xml")
     }
 }

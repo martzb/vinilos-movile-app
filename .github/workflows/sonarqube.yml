@@ -48,10 +48,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Ejecutar tests con cobertura
-        run: ./gradlew :app:testDebugUnitTest
+        run: ./gradlew :app:jacocoTestReport
 
       - name: Verificar reporte JaCoCo generado
-        run: find app/build/reports -name "*.xml" | head -20 || echo "No se encontraron reportes XML"
+        run: find app/build -name "*.xml" | grep -i jacoco | head -20 || echo "No se encontró reporte JaCoCo"
 
       - name: Ejecutar análisis SonarCloud
         env:
