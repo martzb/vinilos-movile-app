@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.misw.vinilos.R
 import com.misw.vinilos.databinding.FragmentMusicianDetailBinding
-import com.misw.vinilos.ui.album.AlbumRecentAdapter
+import com.misw.vinilos.ui.album.AlbumCarouselAdapter
 
 class MusicianDetailFragment : Fragment() {
 
@@ -20,7 +20,7 @@ class MusicianDetailFragment : Fragment() {
 
     private val viewModel: MusicianDetailViewModel by viewModels()
 
-    private val albumAdapter = AlbumRecentAdapter()
+    private val albumAdapter = AlbumCarouselAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,8 @@ class MusicianDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvAlbums.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAlbums.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvAlbums.adapter = albumAdapter
 
         val musicianId = arguments?.getInt("musicianId") ?: -1
