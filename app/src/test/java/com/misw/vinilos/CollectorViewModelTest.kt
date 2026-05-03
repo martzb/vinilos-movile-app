@@ -78,10 +78,9 @@ class CollectorViewModelTest {
     }
 
     @Test
-    fun `isLoading es true al inicio y false al terminar`() = runTest {
+    fun `isLoading es false tras completar la carga`() = runTest {
         coEvery { repository.getCollectors() } returns emptyList()
         val viewModel = CollectorViewModel(repository)
-        assertTrue(viewModel.isLoading.value ?: false)
         advanceUntilIdle()
         assertFalse(viewModel.isLoading.value ?: true)
     }

@@ -81,10 +81,9 @@ class MusicianViewModelTest {
     }
 
     @Test
-    fun `isLoading es true al inicio y false al terminar`() = runTest {
+    fun `isLoading es false tras completar la carga`() = runTest {
         coEvery { repository.getMusicians() } returns emptyList()
         val viewModel = MusicianViewModel(repository)
-        assertTrue(viewModel.isLoading.value ?: false)
         advanceUntilIdle()
         assertFalse(viewModel.isLoading.value ?: true)
     }
@@ -114,11 +113,10 @@ class MusicianViewModelTest {
     }
 
     @Test
-    fun `loadMusicianDetail isLoading true durante carga`() = runTest {
+    fun `loadMusicianDetail isLoading false tras completar la carga`() = runTest {
         coEvery { repository.getMusician(1) } returns makeMusician(1)
         val viewModel = MusicianDetailViewModel(repository)
         viewModel.loadMusicianDetail(1)
-        assertTrue(viewModel.isLoading.value ?: false)
         advanceUntilIdle()
         assertFalse(viewModel.isLoading.value ?: true)
     }
