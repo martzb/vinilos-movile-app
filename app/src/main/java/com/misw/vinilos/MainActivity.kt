@@ -14,6 +14,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    // Perfil activo: se establece al entrar al flujo principal y persiste en todas las pantallas
+    private var activeProfile: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,14 +38,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.albumFragment, R.id.musicianFragment, R.id.collectorFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
 
-                    // Ocultar "Coleccionistas" cuando el perfil activo es Coleccionista
-                    val profileName = arguments?.getString("profileName") ?: ""
-                    val isCollector = profileName == getString(R.string.collector_title)
+                    // Actualizar el perfil activo solo cuando viene de la pantalla de álbumes (tiene argumento)
+                    if (destination.id == R.id.albumFragment) {
+                        val profileName = arguments?.getString("profileName") ?: ""
+                        if (profileName.isNotEmpty()) activeProfile = profileName
+                    }
+
+                    // Ocultar "Coleccionistas" si el perfil activo es Coleccionista
+                    val isCollector = activeProfile == getString(R.string.collector_title)
                     binding.bottomNav.menu.findItem(R.id.collectorFragment)?.isVisible = !isCollector
                 }
                 else -> {
                     binding.bottomNav.visibility = View.GONE
-                    // Restaurar visibilidad al volver a la pantalla de bienvenida
+                    // Resetear perfil al volver a la pantalla de bienvenida
+                    activeProfile = ""
                     binding.bottomNav.menu.findItem(R.id.collectorFragment)?.isVisible = true
                 }
             }
