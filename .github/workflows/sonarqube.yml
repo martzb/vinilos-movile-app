@@ -51,7 +51,13 @@ jobs:
         run: ./gradlew :app:jacocoTestReport
 
       - name: Verificar reporte JaCoCo generado
-        run: find app/build -name "*.xml" | grep -i jacoco | head -20 || echo "No se encontró reporte JaCoCo"
+        run: |
+          echo "=== Archivos XML de JaCoCo ==="
+          find app/build -name "*.xml" | grep -i jacoco || echo "No XML encontrado"
+          echo "=== Archivos de ejecución (.ec/.exec) ==="
+          find app/build -name "*.ec" -o -name "*.exec" || echo "No .ec/.exec encontrado"
+          echo "=== Estructura build/reports ==="
+          find app/build/reports -type f | head -30 || echo "No hay reportes"
 
       - name: Ejecutar análisis SonarCloud
         env:
