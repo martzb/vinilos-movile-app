@@ -5,7 +5,7 @@ import com.misw.vinilos.ui.album.AlbumDiffCallback
 import org.junit.Assert.*
 import org.junit.Test
 
-class AlbumRecentAdapterTest {
+class AlbumCarouselAdapterTest {
 
     private fun makeAlbum(id: Int = 1, name: String = "Álbum") = Album(
         id = id,

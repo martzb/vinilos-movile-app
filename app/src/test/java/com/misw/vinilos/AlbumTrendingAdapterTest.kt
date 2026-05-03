@@ -1,7 +1,7 @@
 package com.misw.vinilos
 
 import com.misw.vinilos.data.model.Album
-import com.misw.vinilos.ui.album.AlbumTrendingAdapter
+import com.misw.vinilos.ui.album.AlbumDiffCallback
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -17,7 +17,7 @@ class AlbumTrendingAdapterTest {
         recordLabel = "Elektra"
     )
 
-    private val diffCallback = AlbumTrendingAdapter.DiffCallback()
+    private val diffCallback = AlbumDiffCallback()
 
     @Test
     fun `areItemsTheSame retorna true cuando los ids son iguales`() {

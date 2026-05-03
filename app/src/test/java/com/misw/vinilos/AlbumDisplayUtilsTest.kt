@@ -76,4 +76,24 @@ class AlbumDisplayUtilsTest {
         assertEquals("", AlbumDisplayUtils.resolveArtistForRecent(album))
     }
 
+    @Test
+    fun `extractArtistName con performers no nulos retorna nombre del primero`() {
+        val performers = listOf(Performer(1, "The Weeknd", "", "Cantante"))
+        val album = makeAlbum(performers = performers, recordLabel = "XO")
+        assertEquals("The Weeknd", AlbumDisplayUtils.extractArtistName(album))
+    }
+
+    @Test
+    fun `resolveArtistForRecent con performers no nulos retorna nombre del primero`() {
+        val performers = listOf(Performer(1, "Shakira", "", "Cantante"))
+        val album = makeAlbum(performers = performers, recordLabel = "Sony")
+        assertEquals("Shakira", AlbumDisplayUtils.resolveArtistForRecent(album))
+    }
+
+    @Test
+    fun `extractArtistName con lista de performers vacía retorna recordLabel`() {
+        val album = makeAlbum(performers = emptyList(), recordLabel = "Warner")
+        assertEquals("Warner", AlbumDisplayUtils.extractArtistName(album))
+    }
+
 }
