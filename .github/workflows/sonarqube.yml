@@ -47,7 +47,13 @@ jobs:
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
 
-      - name: Build and analyze
+      - name: Ejecutar tests con cobertura
+        run: ./gradlew :app:testDebugUnitTest
+
+      - name: Verificar reporte JaCoCo generado
+        run: find app/build/reports -name "*.xml" | head -20 || echo "No se encontraron reportes XML"
+
+      - name: Ejecutar análisis SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew :app:testDebugUnitTest sonar --info
+        run: ./gradlew :app:sonar --info
