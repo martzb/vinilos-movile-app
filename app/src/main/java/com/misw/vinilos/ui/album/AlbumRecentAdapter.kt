@@ -32,13 +32,7 @@ class AlbumRecentAdapter(
 
         fun bind(album: Album) {
             binding.tvAlbumName.text = album.name
-
-            val artistName = if (album.performers.isNotEmpty()) {
-                album.performers.first().name
-            } else {
-                album.recordLabel
-            }
-            binding.tvAlbumArtist.text = artistName
+            binding.tvAlbumArtist.text = AlbumDisplayUtils.resolveArtistForRecent(album)
 
             Glide.with(binding.ivCover.context)
                 .load(album.cover)

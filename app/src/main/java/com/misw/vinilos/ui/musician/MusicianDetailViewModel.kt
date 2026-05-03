@@ -8,9 +8,9 @@ import com.misw.vinilos.data.model.Musician
 import com.misw.vinilos.data.repository.MusicianRepository
 import kotlinx.coroutines.launch
 
-class MusicianDetailViewModel : ViewModel() {
-
-    private val repository = MusicianRepository()
+class MusicianDetailViewModel(
+    private val repository: MusicianRepository = MusicianRepository()
+) : ViewModel() {
 
     private val _musician = MutableLiveData<Musician>()
     val musician: LiveData<Musician> get() = _musician
