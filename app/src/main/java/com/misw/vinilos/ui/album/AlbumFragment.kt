@@ -61,6 +61,10 @@ class AlbumFragment : Fragment() {
         val profileName = arguments?.getString("profileName") ?: getString(R.string.visitor_title)
         binding.tvProfileTitle.text = profileName
 
+        // Ocultar el FAB para el Usuario Visitante
+        val isVisitor = profileName == getString(R.string.visitor_title)
+        binding.fabAdd.isVisible = !isVisitor
+
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }

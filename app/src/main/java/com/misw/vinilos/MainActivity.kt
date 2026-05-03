@@ -30,13 +30,20 @@ class MainActivity : AppCompatActivity() {
         
         binding.bottomNav.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, arguments ->
             when (destination.id) {
                 R.id.albumFragment, R.id.musicianFragment, R.id.collectorFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
+
+                    // Ocultar "Coleccionistas" cuando el perfil activo es Coleccionista
+                    val profileName = arguments?.getString("profileName") ?: ""
+                    val isCollector = profileName == getString(R.string.collector_title)
+                    binding.bottomNav.menu.findItem(R.id.collectorFragment)?.isVisible = !isCollector
                 }
                 else -> {
                     binding.bottomNav.visibility = View.GONE
+                    // Restaurar visibilidad al volver a la pantalla de bienvenida
+                    binding.bottomNav.menu.findItem(R.id.collectorFragment)?.isVisible = true
                 }
             }
         }
