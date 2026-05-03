@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("org.sonarqube")
+    id("jacoco")
 }
 
 android {
@@ -31,6 +32,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -95,5 +99,7 @@ sonar {
         property("sonar.sources", "src/main")
         property("sonar.tests", "src/test,src/androidTest")
         property("sonar.java.source", "11")
+        property("sonar.coverage.jacoco.xmlReportPaths",
+            "build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.xml")
     }
 }
