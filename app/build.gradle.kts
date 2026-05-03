@@ -100,6 +100,6 @@ sonar {
         property("sonar.tests", "src/test,src/androidTest")
         property("sonar.java.source", "11")
         property("sonar.coverage.jacoco.xmlReportPaths",
-            "build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.xml")
+            "build/reports/coverage/test/debug/report.xml")
     }
 }
