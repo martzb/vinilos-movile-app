@@ -84,4 +84,18 @@ class MusicianListScreenTest {
         onView(withId(R.id.rv_musicians))
             .check(matches(hasDescendant(withId(R.id.tv_musician_name))))
     }
+
+    @Test
+    fun e2e_musicianList_toolbarBack_navigatesToAlbums() {
+        onView(withId(R.id.card_visitor)).perform(click())
+        onView(withId(R.id.musicianFragment)).perform(click())
+
+        onView(withId(R.id.toolbar))
+            .check(matches(isDisplayed()))
+
+        androidx.test.espresso.Espresso.pressBack()
+
+        onView(withId(R.id.rv_recent))
+            .check(matches(isDisplayed()))
+    }
 }

@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.misw.vinilos.databinding.ActivityMainBinding
 
 import android.view.View
+import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -15,9 +16,12 @@ import androidx.navigation.ui.setupWithNavController
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    // Perfil activo: se establece al entrar al flujo principal y persiste en todas las pantallas
+    private lateinit var navController: NavController
     private var activeProfile: String = ""
+
+    private val navToAlbum = lazy {
+        NavOptions.Builder().setPopUpTo(R.id.welcomeFragment, false).build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,21 +35,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        
+        navController = navHostFragment.navController
+
         binding.bottomNav.setupWithNavController(navController)
+        setupBackNavigation()
+        setupDestinationListener()
+    }
 
-        // Al presionar back desde un tab secundario, vuelve a albumFragment en lugar del welcome
-        val navToAlbum = NavOptions.Builder()
-            .setPopUpTo(R.id.welcomeFragment, false)
-            .build()
-
+    private fun setupBackNavigation() {
         val secondaryTabs = setOf(R.id.musicianFragment, R.id.collectorFragment)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val current = navController.currentDestination?.id
-                if (current in secondaryTabs) {
-                    navController.navigate(R.id.albumFragment, null, navToAlbum)
+                if (navController.currentDestination?.id in secondaryTabs) {
+                    navController.navigate(R.id.albumFragment, null, navToAlbum.value)
                 } else {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
@@ -53,25 +55,30 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    private fun setupDestinationListener() {
         navController.addOnDestinationChangedListener { _, destination, arguments ->
-            // Actualizar el perfil activo solo al entrar al albumFragment (punto de entrada con argumento)
-            if (destination.id == R.id.albumFragment) {
-                val profileName = arguments?.getString("profileName") ?: ""
-                if (profileName.isNotEmpty()) activeProfile = profileName
-            }
+            updateActiveProfile(destination.id, arguments)
+            updateBottomNavVisibility(destination.id)
+        }
+    }
 
-            val isCollector = activeProfile == getString(R.string.collector_title)
+    private fun updateActiveProfile(destinationId: Int, arguments: Bundle?) {
+        if (destinationId == R.id.albumFragment) {
+            val profileName = arguments?.getString("profileName") ?: ""
+            if (profileName.isNotEmpty()) activeProfile = profileName
+        } else if (destinationId == R.id.welcomeFragment) {
+            activeProfile = ""
+        }
+    }
 
-            when (destination.id) {
-                R.id.albumFragment -> {
-                    binding.bottomNav.visibility = if (isCollector) View.GONE else View.VISIBLE
-                }
-                else -> {
-                    binding.bottomNav.visibility = View.GONE
-                    if (destination.id == R.id.welcomeFragment) activeProfile = ""
-                }
-            }
+    private fun updateBottomNavVisibility(destinationId: Int) {
+        val isCollector = activeProfile == getString(R.string.collector_title)
+        binding.bottomNav.visibility = if (destinationId == R.id.albumFragment && !isCollector) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 }

@@ -100,10 +100,23 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         xml.required.set(true)
         xml.outputLocation.set(file("${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport.xml"))
     }
+    val excludes = listOf(
+        "**/ui/**/*Fragment*",
+        "**/ui/**/*Adapter*",
+        "**/MainActivity*",
+        "**/databinding/**",
+        "**/BuildConfig*",
+        "**/R.class",
+        "**/R$*.class"
+    )
     sourceDirectories.setFrom(files("src/main/java"))
     classDirectories.setFrom(
-        fileTree("${layout.buildDirectory.get()}/intermediates/javac/debug/compileDebugJavaWithJavac/classes") +
-        fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug")
+        fileTree("${layout.buildDirectory.get()}/intermediates/javac/debug/compileDebugJavaWithJavac/classes") {
+            exclude(excludes)
+        } +
+        fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug") {
+            exclude(excludes)
+        }
     )
     executionData.setFrom(
         fileTree(layout.buildDirectory.get()) { include("**/*.exec", "**/*.ec") }
@@ -120,5 +133,7 @@ sonar {
         property("sonar.java.source", "11")
         property("sonar.coverage.jacoco.xmlReportPaths",
             "build/reports/jacoco/jacocoTestReport.xml")
+        property("sonar.coverage.exclusions",
+            "**/ui/**/*Fragment*,**/ui/**/*Adapter*,**/MainActivity*,**/databinding/**")
     }
 }

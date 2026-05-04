@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import androidx.test.espresso.Espresso.pressBack
 
 /**
  * Pruebas E2E (End-to-End) para la vista del listado de coleccionistas.
@@ -87,5 +88,30 @@ class CollectorListScreenTest {
 
         onView(withId(R.id.rv_collectors))
             .check(matches(hasDescendant(withId(R.id.tv_collector_email))))
+    }
+
+    @Test
+    fun e2e_collectorList_backButton_returnsToAlbumList() {
+        navigateToCollectorList()
+
+        onView(withId(R.id.toolbar)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.rv_recent))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun e2e_collectorList_toolbarBack_navigatesToAlbums() {
+        onView(withId(R.id.card_visitor)).perform(click())
+        onView(withId(R.id.collectorFragment)).perform(click())
+
+        onView(withId(R.id.toolbar))
+            .check(matches(isDisplayed()))
+
+        pressBack()
+
+        onView(withId(R.id.rv_recent))
+            .check(matches(isDisplayed()))
     }
 }

@@ -70,10 +70,18 @@ class MusicianDetailScreenTest {
     fun backButton_returnsToMusicianList() {
         navigateToMusicianDetail()
 
-        // Prueba verifica la navegación de regreso (hacia MusicianFragment / Lista de artistas)
         pressBack()
 
-        // Al regresar, el RecyclerView de músicos debe cargar visiblemente.
+        onView(withId(R.id.rv_musicians)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun musicianDetail_toolbarBack_returnsToMusicianList() {
+        navigateToMusicianDetail()
+
+        onView(withId(R.id.toolbar)).perform(click())
+        pressBack()
+
         onView(withId(R.id.rv_musicians)).check(matches(isDisplayed()))
     }
 }
