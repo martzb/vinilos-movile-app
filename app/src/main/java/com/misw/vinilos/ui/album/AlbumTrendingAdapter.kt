@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.misw.vinilos.R
 import com.misw.vinilos.data.model.Album
 import com.misw.vinilos.databinding.ItemAlbumTrendingBinding
 
@@ -31,7 +33,12 @@ class AlbumTrendingAdapter(
             binding.tvAlbumName.text = album.name
             binding.tvGenre.text = album.genre
             binding.tvAlbumArtist.text = AlbumDisplayUtils.extractArtistName(album)
-            binding.ivCover.loadAlbumCover(album.cover)
+            Glide.with(binding.ivCover.context)
+                .load(album.cover)
+                .placeholder(R.drawable.ic_vinyl_record)
+                .error(R.drawable.ic_vinyl_record)
+                .centerCrop()
+                .into(binding.ivCover)
             binding.root.setOnClickListener { onItemClick(album) }
         }
     }

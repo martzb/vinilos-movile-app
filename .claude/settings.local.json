@@ -4,7 +4,8 @@
       "Bash(./gradlew testDebugUnitTest --tests \"com.misw.vinilos.AlbumCarouselAdapterTest\" --tests \"com.misw.vinilos.AlbumDisplayUtilsTest\")",
       "Bash(/usr/libexec/java_home -v 17)",
       "Bash(JAVA_HOME=$\\(/usr/libexec/java_home -v 17 \\) ./gradlew testDebugUnitTest --tests \"com.misw.vinilos.AlbumCarouselAdapterTest\" --tests \"com.misw.vinilos.AlbumDisplayUtilsTest\")",
-      "Bash(JAVA_HOME=$\\(/usr/libexec/java_home -v 17 \\) ./gradlew testDebugUnitTest --tests \"com.misw.vinilos.AlbumCarouselAdapterTest\" --tests \"com.misw.vinilos.AlbumRecentAdapterTest\" --tests \"com.misw.vinilos.AlbumTrendingAdapterTest\")"
+      "Bash(JAVA_HOME=$\\(/usr/libexec/java_home -v 17 \\) ./gradlew testDebugUnitTest --tests \"com.misw.vinilos.AlbumCarouselAdapterTest\" --tests \"com.misw.vinilos.AlbumRecentAdapterTest\" --tests \"com.misw.vinilos.AlbumTrendingAdapterTest\")",
+      "Bash(JAVA_HOME=$\\(/usr/libexec/java_home -v 17 \\) ./gradlew compileDebugKotlin)"
     ]
   }
 }
