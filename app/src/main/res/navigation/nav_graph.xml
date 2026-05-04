@@ -13,9 +13,7 @@
 
         <action
             android:id="@+id/action_welcome_to_albums"
-            app:destination="@id/albumFragment"
-            app:popUpTo="@id/welcomeFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/albumFragment" />
 
     </fragment>
 

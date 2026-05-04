@@ -1,12 +1,14 @@
 package com.misw.vinilos
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.misw.vinilos.databinding.ActivityMainBinding
 
 import android.view.View
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 
@@ -33,6 +35,25 @@ class MainActivity : AppCompatActivity() {
         
         binding.bottomNav.setupWithNavController(navController)
 
+        // Al presionar back desde un tab secundario, vuelve a albumFragment en lugar del welcome
+        val navToAlbum = NavOptions.Builder()
+            .setPopUpTo(R.id.welcomeFragment, false)
+            .build()
+
+        val secondaryTabs = setOf(R.id.musicianFragment, R.id.collectorFragment)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val current = navController.currentDestination?.id
+                if (current in secondaryTabs) {
+                    navController.navigate(R.id.albumFragment, null, navToAlbum)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
+            }
+        })
+
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             // Actualizar el perfil activo solo al entrar al albumFragment (punto de entrada con argumento)
             if (destination.id == R.id.albumFragment) {
@@ -43,14 +64,12 @@ class MainActivity : AppCompatActivity() {
             val isCollector = activeProfile == getString(R.string.collector_title)
 
             when (destination.id) {
-                R.id.albumFragment, R.id.musicianFragment, R.id.collectorFragment -> {
-                    // Coleccionista no ve el menú inferior en ninguna pantalla
+                R.id.albumFragment -> {
                     binding.bottomNav.visibility = if (isCollector) View.GONE else View.VISIBLE
                 }
                 else -> {
                     binding.bottomNav.visibility = View.GONE
-                    // Resetear perfil al volver a la pantalla de bienvenida
-                    activeProfile = ""
+                    if (destination.id == R.id.welcomeFragment) activeProfile = ""
                 }
             }
         }

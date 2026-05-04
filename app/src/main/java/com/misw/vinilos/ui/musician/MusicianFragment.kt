@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.misw.vinilos.R
@@ -43,7 +44,10 @@ class MusicianFragment : Fragment() {
         binding.rvMusicians.adapter = adapter
 
         binding.toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(
+                R.id.albumFragment, null,
+                NavOptions.Builder().setPopUpTo(R.id.welcomeFragment, false).build()
+            )
         }
 
         viewModel.musicians.observe(viewLifecycleOwner) { musicians ->
