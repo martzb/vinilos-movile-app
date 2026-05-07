@@ -94,6 +94,18 @@ Pruebas de estrés enviando pseudo-eventos aleatorios para detectar fugas de mem
 
 ---
 
+## Paso 4: Perfilamiento de Memoria (Opcional)
+Generación de reportes de consumo de memoria (Dalvik / Native Heap) para validar la eficiencia de los recursos.
+
+1. Navegue por la aplicación en el emulador (ej. abra el detalle de algunos álbumes y artistas).
+2. Ejecute el script automatizado indicando el perfil del dispositivo actual (ej. `standard`, `old-gen`, `high-end`):
+   ```bash
+   bash scripts/capture_memory_profile.sh standard
+   ```
+3. **Resultado Esperado:** El script capturará un screenshot automático de la vista actual y generará el volcado de memoria (`dumpsys`) en la ruta `reports/monkey/meminfo_standard.txt`.
+
+---
+
 ## 📂 Reportes y Evidencias Entregadas
 
 Si desea inspeccionar los resultados pre-calculados de nuestra ejecución de la Granja Virtual, diríjase a:
@@ -101,3 +113,15 @@ Si desea inspeccionar los resultados pre-calculados de nuestra ejecución de la 
 * **Reportes Monkey:** `reports/monkey/` (Contiene los logcats limpios de Crashes para las arquitecturas Old Gen, Standard y High End).
 * **Líneas Base (VRT):** Carpetas `vrt-baseline-standard`, `vrt-baseline-old-gen`, y `vrt-baseline-high-end` en la raíz del repositorio, las cuales contienen las evidencias de que la UI es responsiva a la fragmentación de pantallas.
 * **Demo:** enlace a drive con la demostración
+
+---
+
+## 🛠 Justificación de Consumo de Memoria (Rúbrica de Desempeño)
+
+Para garantizar una experiencia fluida y evitar excepciones de falta de memoria (`OutOfMemoryError`), el proyecto evidencia el uso de las siguientes buenas prácticas y herramientas de perfilamiento:
+
+1. **Gestión Activa de Memoria (Mejora de Experiencia):** 
+   * La aplicación utiliza la librería **Glide** (`com.github.bumptech.glide`) para la carga asíncrona de las portadas de los álbumes. Glide implementa *Bitmap Pooling* y cachés de memoria (LruCache) que reciclan la memoria de las imágenes que salen de la pantalla en lugar de asignar memoria nueva constantemente. Esta es la herramienta principal para mantener un _Heap_ de memoria estable durante el scroll infinito.
+2. **Medición y Perfilamiento (Dumpsys):** 
+   * Se realizó un perfilamiento formal de memoria sobre 3 arquitecturas distintas (High End, Standard y Old Gen) utilizando la herramienta ADB nativa de Android (`adb shell dumpsys meminfo`). 
+   * Los archivos `.txt` resultantes que demuestran la estabilidad del _Dalvik Heap_ y el _Native Heap_ se encuentran disponibles en la carpeta `reports/monkey/` acompañados de capturas de pantalla de la navegación.
