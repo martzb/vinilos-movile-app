@@ -106,7 +106,7 @@ Generación de reportes de consumo de memoria (Dalvik / Native Heap) para valida
 
 ---
 
-## 📂 Reportes y Evidencias Entregadas
+## Reportes y Evidencias Entregadas
 
 Si desea inspeccionar los resultados pre-calculados de nuestra ejecución de la Granja Virtual, diríjase a:
 
@@ -116,7 +116,7 @@ Si desea inspeccionar los resultados pre-calculados de nuestra ejecución de la 
 
 ---
 
-## 🛠 Justificación de Consumo de Memoria (Rúbrica de Desempeño)
+## Justificación de Consumo de Memoria (Rúbrica de Desempeño)
 
 Para garantizar una experiencia fluida y evitar excepciones de falta de memoria (`OutOfMemoryError`), el proyecto evidencia el uso de las siguientes buenas prácticas y herramientas de perfilamiento:
 
