@@ -21,7 +21,7 @@ echo "=== Perfilando dispositivo: $PROFILE ==="
 # 1. Tomar Screenshot
 echo "Tomando screenshot de la pantalla actual"
 adb shell screencap -p /sdcard/memory_$PROFILE.png
-adb pull /sdcard/memory_$PROFILE.png ./vrt-baseline-$PROFILE/memory_$PROFILE.png
+adb pull /sdcard/memory_$PROFILE.png reports/monkey/memory_$PROFILE.png
 
 # 2. Tomar volcado de memoria (dumpsys)
 echo "Capturando consumo de memoria (meminfo)"
@@ -29,5 +29,5 @@ mkdir -p reports/monkey
 adb shell dumpsys meminfo $PACKAGE > reports/monkey/meminfo_$PROFILE.txt
 
 echo "Evidencias guardadas en:"
-echo " - ./vrt-baseline-$PROFILE/memory_$PROFILE.png"
+echo " - reports/monkey/memory_$PROFILE.png"
 echo " - reports/monkey/meminfo_$PROFILE.txt"
