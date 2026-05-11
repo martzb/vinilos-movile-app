@@ -30,4 +30,14 @@
     <string name="collectors_title">Coleccionistas</string>
     <string name="collector_photo_desc">Foto del coleccionista</string>
     <string name="go_to_detail">Ir al detalle</string>
+
+    <!-- Collector Detail -->
+    <string name="collector_detail_title">Detalle del Coleccionista</string>
+    <string name="collector_contact_email">Correo de contacto</string>
+    <string name="collector_contact_telephone">Teléfono</string>
+    <string name="collector_musical_tastes">Gustos musicales</string>
+    <string name="collector_no_tastes">Sin géneros preferidos</string>
+    <string name="collector_no_telephone">No disponible</string>
+    <string name="collector_invalid_id">No se recibió un ID válido de coleccionista.</string>
 </resources>
+

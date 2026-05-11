@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos.data.model.Collector
 import com.misw.vinilos.databinding.ItemCollectorBinding
 
-class CollectorAdapter : ListAdapter<Collector, CollectorAdapter.ViewHolder>(DiffCallback()) {
+class CollectorAdapter(
+    private val onItemClick: (Collector) -> Unit
+) : ListAdapter<Collector, CollectorAdapter.ViewHolder>(DiffCallback()) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCollectorBinding.inflate(
@@ -18,7 +21,9 @@ class CollectorAdapter : ListAdapter<Collector, CollectorAdapter.ViewHolder>(Dif
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val collector = getItem(position)
+        holder.bind(collector)
+        holder.itemView.setOnClickListener { onItemClick(collector) }
     }
 
     class ViewHolder(

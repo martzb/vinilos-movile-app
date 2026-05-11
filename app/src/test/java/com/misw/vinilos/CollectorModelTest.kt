@@ -9,8 +9,10 @@ class CollectorModelTest {
     private fun makeCollector(
         id: Int = 1,
         name: String = "Manolo Bellon",
-        email: String = "manolo@gmail.com"
-    ) = Collector(id = id, name = name, email = email)
+        email: String = "manolo@gmail.com",
+        telephone: String? = "3502457896",
+        favoritePerformers: List<com.misw.vinilos.data.model.Performer> = emptyList()
+    ) = Collector(id = id, name = name, email = email, telephone = telephone, favoritePerformers = favoritePerformers)
 
     @Test
     fun `collector tiene valores correctos`() {
@@ -18,6 +20,8 @@ class CollectorModelTest {
         assertEquals(1, collector.id)
         assertEquals("Manolo Bellon", collector.name)
         assertEquals("manolo@gmail.com", collector.email)
+        assertEquals("3502457896", collector.telephone)
+        assertTrue(collector.favoritePerformers.isEmpty())
     }
 
     @Test

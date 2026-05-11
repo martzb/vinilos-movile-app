@@ -18,7 +18,12 @@ class CollectorFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CollectorViewModel by viewModels()
-    private val adapter = CollectorAdapter()
+    private val adapter = CollectorAdapter { collector ->
+        val bundle = Bundle().apply {
+            putInt("collectorId", collector.id)
+        }
+        findNavController().navigate(com.misw.vinilos.R.id.action_collectorFragment_to_collectorDetailFragment, bundle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
