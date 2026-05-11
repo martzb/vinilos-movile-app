@@ -8,4 +8,9 @@ class CollectorRepository {
     suspend fun getCollectors(): List<Collector> {
         return ApiClient.retrofitService.getCollectors()
     }
+
+    suspend fun getCollector(collectorId: Int): Collector {
+        return ApiClient.retrofitService.getCollector(collectorId)
+    }
 }
+
