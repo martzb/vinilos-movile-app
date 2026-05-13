@@ -3,6 +3,8 @@ package com.misw.vinilos.data.network
 import com.misw.vinilos.data.model.Album
 import com.misw.vinilos.data.model.Collector
 import com.misw.vinilos.data.model.Musician
+import com.misw.vinilos.data.model.Track
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -28,6 +30,12 @@ interface VinilosApiService {
     suspend fun getCollector(@Path("id") collectorId: Int): Collector
 
     @POST("albums")
-    suspend fun createAlbums(): List<Album>
+    suspend fun createAlbum(@Body album: Album): Album
+
+    @POST("albums/{id}/tracks")
+    suspend fun createTrack(
+        @Path("id") albumId: Int,
+        @Body track: Track
+    ): Track
 }
 

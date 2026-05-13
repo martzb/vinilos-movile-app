@@ -1,6 +1,7 @@
 package com.misw.vinilos.data.repository
 
 import com.misw.vinilos.data.model.Album
+import com.misw.vinilos.data.model.Track
 import com.misw.vinilos.data.network.ApiClient
 
 /**
@@ -25,8 +26,12 @@ class AlbumRepository {
         return ApiClient.retrofitService.getAlbum(id)
     }
 
-    suspend fun createAlbums(): List<Album> {
-        return ApiClient.retrofitService.createAlbums()
+    suspend fun createAlbum(album: Album): Album {
+        return ApiClient.retrofitService.createAlbum(album)
+    }
+
+    suspend fun createTrack(albumId: Int, track: Track): Track {
+        return ApiClient.retrofitService.createTrack(albumId, track)
     }
 
 }
