@@ -25,4 +25,8 @@ class AlbumRepository {
         return ApiClient.retrofitService.getAlbum(id)
     }
 
+    suspend fun createAlbums(): List<Album> {
+        return ApiClient.retrofitService.createAlbums()
+    }
+
 }

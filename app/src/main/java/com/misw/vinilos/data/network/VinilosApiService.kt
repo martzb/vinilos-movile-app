@@ -4,6 +4,7 @@ import com.misw.vinilos.data.model.Album
 import com.misw.vinilos.data.model.Collector
 import com.misw.vinilos.data.model.Musician
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface VinilosApiService {
@@ -25,5 +26,8 @@ interface VinilosApiService {
 
     @GET("collectors/{id}")
     suspend fun getCollector(@Path("id") collectorId: Int): Collector
+
+    @POST("albums")
+    suspend fun createAlbums(): List<Album>
 }
 
