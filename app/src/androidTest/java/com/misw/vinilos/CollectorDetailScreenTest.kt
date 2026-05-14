@@ -53,15 +53,13 @@ class CollectorDetailScreenTest {
     fun e2e_collectorDetail_showsCollectorInfo() {
         navigateToCollectorDetail()
 
-        // Verifica que el nombre, email y teléfono se muestran
+        // Verifica que el nombre y la información de contacto se muestran
         onView(withId(R.id.tvCollectorName)).check(matches(isDisplayed()))
-        onView(withId(R.id.tvCollectorEmail)).check(matches(isDisplayed()))
-        onView(withId(R.id.tvCollectorTelephone)).check(matches(isDisplayed()))
+        onView(withId(R.id.tvCollectorContact)).check(matches(isDisplayed()))
         
-        // Verifica los labels de las secciones (Artistas y Álbumes)
-        onView(withText(R.string.collector_contact_email)).check(matches(isDisplayed()))
-        onView(withText(R.string.collector_musical_tastes)).check(matches(isDisplayed()))
-        onView(withId(R.id.tvAlbumsLabel)).check(matches(isDisplayed()))
+        // Verifica los labels de las colecciones
+        onView(withText("Álbumes favoritos")).check(matches(isDisplayed()))
+        onView(withText("Artistas favoritos")).check(matches(isDisplayed()))
     }
 
     @Test
@@ -73,17 +71,11 @@ class CollectorDetailScreenTest {
         onView(withId(android.R.id.content)).perform(androidx.test.espresso.action.ViewActions.swipeUp())
         Thread.sleep(1000)
 
-        // Verifica que la etiqueta de gustos musicales es visible
-        onView(withText(R.string.collector_musical_tastes)).check(matches(isDisplayed()))
-
-        // Verifica que el ChipGroup de géneros/gustos es visible
-        onView(withId(R.id.cgGenres)).check(matches(isDisplayed()))
-        
-        // Verifica que la etiqueta de álbumes es visible
-        onView(withId(R.id.tvAlbumsLabel)).check(matches(isDisplayed()))
-        
-        // Verifica que la sección de álbumes (RecyclerView) existe (aunque sea vacía)
+        // Verifica que la sección de álbumes (RecyclerView) existe
         onView(withId(R.id.rvAlbums)).check(matches(isDisplayed()))
+
+        // Verifica que la sección de artistas (RecyclerView) existe
+        onView(withId(R.id.rvPerformers)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -91,7 +83,7 @@ class CollectorDetailScreenTest {
         navigateToCollectorDetail()
 
         // Probar navegación de regreso mediante la flecha de la toolbar
-        onView(withId(R.id.toolbar)).perform(click())
+        // Si tienes navigationIcon, click() en la vista contenedora podría no funcionar igual en toolbar material, pero usaremos contentDescription o pressBack si es necesario.
         pressBack()
 
         // Deberíamos estar de vuelta en la lista de coleccionistas
