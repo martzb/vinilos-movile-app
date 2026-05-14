@@ -30,7 +30,7 @@ class AlbumRepository {
         return ApiClient.retrofitService.createAlbum(album)
     }
 
-    suspend fun createTrack(albumId: Int, track: Track): Track {
+    suspend fun createTrack(albumId: Int, track: com.misw.vinilos.data.model.TrackRequest): Track {
         return ApiClient.retrofitService.createTrack(albumId, track)
     }
 

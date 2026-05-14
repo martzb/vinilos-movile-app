@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.misw.vinilos.R
 import com.misw.vinilos.databinding.FragmentAlbumDetailBinding
+import androidx.navigation.fragment.findNavController
 
 class AlbumDetailFragment : Fragment() {
 
@@ -67,6 +68,11 @@ class AlbumDetailFragment : Fragment() {
 
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.fabAddTrack.setOnClickListener {
+            val bundle = Bundle().apply { putInt("albumId", albumId) }
+            findNavController().navigate(R.id.action_albumDetailFragment_to_createTrackFragment, bundle)
         }
     }
 

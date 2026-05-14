@@ -35,7 +35,7 @@ interface VinilosApiService {
     @POST("albums/{id}/tracks")
     suspend fun createTrack(
         @Path("id") albumId: Int,
-        @Body track: Track
+        @Body track: com.misw.vinilos.data.model.TrackRequest
     ): Track
 }
 
