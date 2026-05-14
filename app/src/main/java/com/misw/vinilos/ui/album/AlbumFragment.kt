@@ -69,6 +69,10 @@ class AlbumFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_albumFragment_to_createAlbumFragment)
+        }
+
         viewModel.albums.observe(viewLifecycleOwner) { albums ->
             val sorted = albums.sortedByDescending { it.releaseDate }
             trendingAdapter.submitList(sorted.take(5))
