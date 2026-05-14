@@ -20,8 +20,14 @@ class CollectorDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CollectorDetailViewModel by viewModels()
-    private val albumAdapter = AlbumCarouselAdapter()
-    private val performerAdapter = PerformerCarouselAdapter()
+    private val albumAdapter = AlbumCarouselAdapter { album ->
+        val bundle = Bundle().apply { putInt("albumId", album.id) }
+        findNavController().navigate(R.id.action_collectorDetailFragment_to_albumDetailFragment, bundle)
+    }
+    private val performerAdapter = PerformerCarouselAdapter { performer ->
+        val bundle = Bundle().apply { putInt("musicianId", performer.id) }
+        findNavController().navigate(R.id.action_collectorDetailFragment_to_musicianDetailFragment, bundle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
