@@ -6,6 +6,7 @@
     <!-- Paleta Vinilos -->
     <color name="background_dark">#1A1A2E</color>
     <color name="card_background">#2A2A3E</color>
+    <color name="field_background">#3E3E5A</color>
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#AAAACC</color>
     <color name="accent_purple">#7B6CF6</color>
