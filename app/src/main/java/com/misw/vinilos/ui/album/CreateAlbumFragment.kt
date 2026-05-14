@@ -22,15 +22,15 @@ import java.util.Calendar
 import java.util.Locale
 
 /**
- * Fragment con el formulario de creación de álbum.
+ * Fragment del formulario de creación de álbum.
  *
- * Criterios de aceptación:
- *  - Selector de portada con previsualización en la parte superior.
- *  - Campos: nombre, artista, año, disquera, género, descripción (texto blanco).
- *  - DropdownMenu para artista (cargado desde la API) y género (estático).
- *  - Botón "Guardar" visible al fondo.
- *  - Flecha de regreso al catálogo.
- *  - Validación de campos requeridos antes del envío.
+ * Responsabilidades del Fragment (solo UI):
+ *  - Capturar eventos del usuario y pasarlos al ViewModel.
+ *  - Observar [AlbumFormValidation] y mostrar/ocultar errores en TextInputLayout.
+ *  - Mostrar el diálogo de éxito y navegar de regreso.
+ *
+ * Toda la lógica de validación vive en [CreateAlbumViewModel.validateFields].
+ * [HU07] Validar campos requeridos del formulario.
  */
 class CreateAlbumFragment : Fragment() {
 
@@ -51,7 +51,6 @@ class CreateAlbumFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 selectedCoverUri = it
-                // Mostrar imagen seleccionada y ocultar placeholder
                 binding.ivCoverPreview.setImageURI(it)
                 binding.ivCoverPreview.visibility = View.VISIBLE
                 binding.llCoverPlaceholder.visibility = View.GONE
@@ -96,18 +95,19 @@ class CreateAlbumFragment : Fragment() {
     // ── Dropdown de Género (estático) ──────────────────────────────────────────
 
     private fun setupGenreDropdown() {
-        val genreAdapter = ArrayAdapter(
+        val adapter = ArrayAdapter(
             requireContext(),
             R.layout.item_dropdown_white,
             genres
         )
-        binding.actvGenre.setAdapter(genreAdapter)
+        binding.actvGenre.setAdapter(adapter)
+        // Limpiar error al seleccionar
         binding.actvGenre.setOnItemClickListener { _, _, _, _ ->
             binding.tilGenre.error = null
         }
     }
 
-    // ── DatePicker para Fecha de lanzamiento ───────────────────────────────────
+    // ── DatePicker ─────────────────────────────────────────────────────────────
 
     private fun setupDatePicker() {
         val pickDate = {
@@ -115,16 +115,15 @@ class CreateAlbumFragment : Fragment() {
             DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
-                    // Formato ISO 8601 esperado por el backend
+                    // Valor ISO 8601 para el backend — guardado en tag
                     val isoDate = String.format(
                         Locale.US, "%04d-%02d-%02dT00:00:00.000Z",
                         year, month + 1, day
                     )
-                    // Formato legible para el usuario: dd/MM/yyyy
+                    // Texto legible para el usuario
                     val displayFmt = SimpleDateFormat("dd/MM/yyyy", Locale.US)
                     cal.set(year, month, day)
                     binding.etReleaseDate.setText(displayFmt.format(cal.time))
-                    // Guardar el valor ISO en el tag para usarlo al guardar
                     binding.etReleaseDate.tag = isoDate
                     binding.tilReleaseDate.error = null
                 },
@@ -138,101 +137,67 @@ class CreateAlbumFragment : Fragment() {
     }
 
     // ── Botón Guardar ──────────────────────────────────────────────────────────
+    //
+    // El Fragment ya no valida. Pasa los datos al ViewModel y este decide si
+    // emitir errores de validación o continuar con el POST al API.
 
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
-            if (validateForm()) {
-                val isoDate = binding.etReleaseDate.tag as? String ?: ""
-                viewModel.createAlbum(
-                    name = binding.etAlbumName.text.toString().trim(),
-                    musicianId = selectedMusicianId,
-                    releaseDate = isoDate,
-                    recordLabel = binding.etRecordLabel.text.toString().trim(),
-                    genre = binding.actvGenre.text.toString().trim(),
-                    description = binding.etDescription.text.toString().trim()
-                )
-            }
+            viewModel.submitAlbum(
+                name            = binding.etAlbumName.text.toString().trim(),
+                artistName      = binding.actvArtist.text.toString().trim(),
+                musicianId      = selectedMusicianId,
+                releaseDateIso  = binding.etReleaseDate.tag as? String ?: "",
+                releaseDateDisplay = binding.etReleaseDate.text.toString().trim(),
+                recordLabel     = binding.etRecordLabel.text.toString().trim(),
+                genre           = binding.actvGenre.text.toString().trim(),
+                description     = binding.etDescription.text.toString().trim()
+            )
         }
-    }
-
-    // ── Validación ─────────────────────────────────────────────────────────────
-
-    private fun validateForm(): Boolean {
-        var isValid = true
-
-        if (binding.etAlbumName.text.isNullOrBlank()) {
-            binding.tilAlbumName.error = getString(R.string.error_required_field)
-            isValid = false
-        } else {
-            binding.tilAlbumName.error = null
-        }
-
-        if (binding.actvArtist.text.isNullOrBlank()) {
-            binding.tilArtist.error = getString(R.string.error_required_field)
-            isValid = false
-        } else {
-            binding.tilArtist.error = null
-        }
-
-        if (binding.etReleaseDate.text.isNullOrBlank()) {
-            binding.tilReleaseDate.error = getString(R.string.error_required_field)
-            isValid = false
-        } else {
-            binding.tilReleaseDate.error = null
-        }
-
-        if (binding.etRecordLabel.text.isNullOrBlank()) {
-            binding.tilRecordLabel.error = getString(R.string.error_required_field)
-            isValid = false
-        } else {
-            binding.tilRecordLabel.error = null
-        }
-
-        if (binding.actvGenre.text.isNullOrBlank()) {
-            binding.tilGenre.error = getString(R.string.error_required_field)
-            isValid = false
-        } else {
-            binding.tilGenre.error = null
-        }
-
-        if (binding.etDescription.text.isNullOrBlank()) {
-            binding.tilDescription.error = getString(R.string.error_required_field)
-            isValid = false
-        } else {
-            binding.tilDescription.error = null
-        }
-
-        return isValid
     }
 
     // ── Observers ──────────────────────────────────────────────────────────────
 
     private fun setupObservers() {
-        // Poblar el dropdown de Artista con los músicos de la API
+        // Músicos para el dropdown de Artista
         viewModel.musicians.observe(viewLifecycleOwner) { musicians ->
-            val artistAdapter = ArrayAdapter(
+            val adapter = ArrayAdapter(
                 requireContext(),
                 R.layout.item_dropdown_white,
                 musicians.map { it.name }
             )
-            binding.actvArtist.setAdapter(artistAdapter)
+            binding.actvArtist.setAdapter(adapter)
             binding.actvArtist.setOnItemClickListener { _, _, position, _ ->
                 selectedMusicianId = musicians[position].id
                 binding.tilArtist.error = null
             }
         }
 
+        // Estado de validación — muestra / borra errores en cada TextInputLayout
+        viewModel.validationState.observe(viewLifecycleOwner) { state ->
+            state ?: return@observe
+            binding.tilAlbumName.error    = state.nameError
+            binding.tilArtist.error       = state.artistError
+            binding.tilReleaseDate.error  = state.releaseDateError
+            binding.tilRecordLabel.error  = state.recordLabelError
+            binding.tilGenre.error        = state.genreError
+            binding.tilDescription.error  = state.descriptionError
+        }
+
+        // Estado de carga
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.btnSave.isEnabled = !isLoading
         }
 
+        // Error de red (Toast)
         viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
             if (!errorMsg.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
             }
         }
 
+        // Éxito → diálogo y regreso al catálogo
         viewModel.isSuccess.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess) {
                 showSuccessDialog()

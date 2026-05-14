@@ -15,8 +15,9 @@ import kotlinx.coroutines.launch
  *
  * Responsabilidades:
  *  - Cargar la lista de músicos para el DropdownMenu de Artista.
+ *  - Validar los campos del formulario antes del envío ([HU07]).
  *  - Enviar el nuevo álbum al repositorio (POST /albums).
- *  - Exponer estados de carga, éxito y error.
+ *  - Exponer estados de validación, carga, éxito y error.
  */
 class CreateAlbumViewModel : ViewModel() {
 
@@ -31,7 +32,7 @@ class CreateAlbumViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    // Mensaje de error (null = sin error)
+    // Error de red/servidor (Toast)
     private val _error = MutableLiveData<String?>(null)
     val error: LiveData<String?> get() = _error
 
@@ -39,9 +40,25 @@ class CreateAlbumViewModel : ViewModel() {
     private val _isSuccess = MutableLiveData<Boolean>(false)
     val isSuccess: LiveData<Boolean> get() = _isSuccess
 
+    /**
+     * Estado de validación campo a campo.
+     * El Fragment observa este LiveData para mostrar/ocultar
+     * los mensajes de error en cada TextInputLayout.
+     *
+     * [HU07] Validación en ViewModel.
+     */
+    private val _validationState = MutableLiveData<AlbumFormValidation?>(null)
+    val validationState: LiveData<AlbumFormValidation?> get() = _validationState
+
+    // Expresión regular para validar el formato ISO 8601 generado por DatePicker
+    private val ISO_DATE_REGEX =
+        Regex("""^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$""")
+
     init {
         loadMusicians()
     }
+
+    // ── Cargar músicos ─────────────────────────────────────────────────────────
 
     /**
      * Carga la lista de músicos desde el endpoint GET /musicians.
@@ -60,17 +77,125 @@ class CreateAlbumViewModel : ViewModel() {
         }
     }
 
+    // ── Punto de entrada principal desde el Fragment ────────────────────────────
+
     /**
-     * Envía el formulario al endpoint POST /albums.
+     * Valida el formulario y, si es válido, crea el álbum.
+     *
+     * El Fragment llama a este método al pulsar "Guardar".
+     * No necesita hacer ninguna validación propia.
      *
      * @param name          Nombre del álbum
-     * @param musicianId    ID del músico/artista seleccionado (-1 si no se seleccionó)
-     * @param releaseDate   Fecha de lanzamiento en formato ISO 8601 (yyyy-MM-dd'T'HH:mm:ss.SSS'Z')
+     * @param artistName    Nombre del artista seleccionado (para validar si está vacío)
+     * @param musicianId    ID del músico seleccionado (-1 si no se eligió)
+     * @param releaseDateIso Fecha ISO 8601 (guardada en el tag del EditText)
+     * @param releaseDateDisplay Texto visible en el campo (dd/MM/yyyy)
      * @param recordLabel   Sello discográfico
      * @param genre         Género musical
      * @param description   Descripción del álbum
      */
-    fun createAlbum(
+    fun submitAlbum(
+        name: String,
+        artistName: String,
+        musicianId: Int,
+        releaseDateIso: String,
+        releaseDateDisplay: String,
+        recordLabel: String,
+        genre: String,
+        description: String
+    ) {
+        val validation = validateFields(
+            name = name,
+            artistName = artistName,
+            releaseDateIso = releaseDateIso,
+            releaseDateDisplay = releaseDateDisplay,
+            recordLabel = recordLabel,
+            genre = genre,
+            description = description
+        )
+
+        // Emitir siempre el estado de validación para que el Fragment actualice la UI
+        _validationState.value = validation
+
+        if (validation.isValid) {
+            createAlbum(
+                name = name,
+                musicianId = musicianId,
+                releaseDate = releaseDateIso,
+                recordLabel = recordLabel,
+                genre = genre,
+                description = description
+            )
+        }
+    }
+
+    // ── Validación (lógica pura, testeable) ────────────────────────────────────
+
+    /**
+     * Evalúa cada campo y devuelve un [AlbumFormValidation] con los errores.
+     *
+     * Reglas:
+     *  - nombre: obligatorio (no vacío)
+     *  - artista: obligatorio (debe haber seleccionado uno del dropdown)
+     *  - fecha: obligatoria + formato ISO 8601 válido generado por DatePicker
+     *  - sello discográfico: obligatorio
+     *  - género: obligatorio (debe haber seleccionado uno del dropdown)
+     *  - descripción: obligatoria
+     */
+    internal fun validateFields(
+        name: String,
+        artistName: String,
+        releaseDateIso: String,
+        releaseDateDisplay: String,
+        recordLabel: String,
+        genre: String,
+        description: String
+    ): AlbumFormValidation {
+
+        val nameError = when {
+            name.isBlank() -> ERROR_REQUIRED
+            else -> null
+        }
+
+        val artistError = when {
+            artistName.isBlank() -> ERROR_REQUIRED
+            else -> null
+        }
+
+        val releaseDateError = when {
+            releaseDateDisplay.isBlank() -> ERROR_REQUIRED
+            !ISO_DATE_REGEX.matches(releaseDateIso) -> ERROR_INVALID_DATE
+            else -> null
+        }
+
+        val recordLabelError = when {
+            recordLabel.isBlank() -> ERROR_REQUIRED
+            else -> null
+        }
+
+        val genreError = when {
+            genre.isBlank() -> ERROR_REQUIRED
+            else -> null
+        }
+
+        val descriptionError = when {
+            description.isBlank() -> ERROR_REQUIRED
+            else -> null
+        }
+
+        return AlbumFormValidation(
+            nameError = nameError,
+            artistError = artistError,
+            releaseDateError = releaseDateError,
+            recordLabelError = recordLabelError,
+            genreError = genreError,
+            descriptionError = descriptionError
+        )
+    }
+
+    // ── Envío al API ───────────────────────────────────────────────────────────
+
+    private fun createAlbum(
         name: String,
         musicianId: Int,
         releaseDate: String,
@@ -104,5 +229,10 @@ class CreateAlbumViewModel : ViewModel() {
 
     fun resetSuccess() {
         _isSuccess.value = false
+    }
+
+    companion object {
+        internal const val ERROR_REQUIRED = "Campo requerido"
+        internal const val ERROR_INVALID_DATE = "Selecciona una fecha válida"
     }
 }
