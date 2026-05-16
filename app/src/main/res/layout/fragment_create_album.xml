@@ -160,10 +160,10 @@
                     android:textColorHint="@color/text_secondary" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo: Sello discográfico -->
+            <!-- Campo: Sello discográfico (Dropdown) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilRecordLabel"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -176,14 +176,14 @@
                 app:boxStrokeColor="@color/text_secondary"
                 app:hintTextColor="@color/text_secondary">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etRecordLabel"
+                <AutoCompleteTextView
+                    android:id="@+id/actvRecordLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
+                    android:inputType="none"
                     android:textColor="@color/text_primary"
                     android:textColorHint="@color/text_secondary"
-                    android:imeOptions="actionNext" />
+                    tools:text="Selecciona un sello" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Campo: Género (Dropdown) -->

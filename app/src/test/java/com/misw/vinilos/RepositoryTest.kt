@@ -1,6 +1,7 @@
 package com.misw.vinilos
 
 import com.misw.vinilos.data.model.Album
+import com.misw.vinilos.data.model.AlbumRequest
 import com.misw.vinilos.data.model.Collector
 import com.misw.vinilos.data.model.Musician
 import com.misw.vinilos.data.network.ApiClient
@@ -67,6 +68,42 @@ class RepositoryTest {
         var caught: Exception? = null
         try { repo.getAlbums() } catch (e: Exception) { caught = e }
         assertNotNull(caught)
+    }
+
+    @Test
+    fun `AlbumRepository createAlbum retorna el album creado por el servicio`() = runTest {
+        val request = AlbumRequest(
+            name        = "Nuevo Álbum",
+            cover       = "https://example.com/cover.jpg",
+            releaseDate = "2024-01-01T00:00:00.000Z",
+            description = "Desc",
+            genre       = "Rock",
+            recordLabel = "Sony Music"
+        )
+        val created = makeAlbum(id = 99).copy(name = "Nuevo Álbum")
+        coEvery { apiService.createAlbum(request) } returns created
+        val repo = AlbumRepository()
+        val result = repo.createAlbum(request)
+        assertEquals(created, result)
+        assertEquals(99, result.id)
+    }
+
+    @Test
+    fun `AlbumRepository createAlbum propaga excepción de red`() = runTest {
+        val request = AlbumRequest(
+            name        = "Álbum",
+            cover       = "https://example.com/cover.jpg",
+            releaseDate = "2024-01-01T00:00:00.000Z",
+            description = "Desc",
+            genre       = "Rock",
+            recordLabel = "Sony Music"
+        )
+        coEvery { apiService.createAlbum(request) } throws RuntimeException("Error 400")
+        val repo = AlbumRepository()
+        var caught: Exception? = null
+        try { repo.createAlbum(request) } catch (e: Exception) { caught = e }
+        assertNotNull(caught)
+        assertEquals("Error 400", caught?.message)
     }
 
     // --- MusicianRepository ---

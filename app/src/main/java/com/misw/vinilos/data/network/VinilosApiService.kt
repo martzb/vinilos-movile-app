@@ -1,6 +1,7 @@
 package com.misw.vinilos.data.network
 
 import com.misw.vinilos.data.model.Album
+import com.misw.vinilos.data.model.AlbumRequest
 import com.misw.vinilos.data.model.Collector
 import com.misw.vinilos.data.model.Musician
 import com.misw.vinilos.data.model.Track
@@ -30,7 +31,7 @@ interface VinilosApiService {
     suspend fun getCollector(@Path("id") collectorId: Int): Collector
 
     @POST("albums")
-    suspend fun createAlbum(@Body album: Album): Album
+    suspend fun createAlbum(@Body album: AlbumRequest): Album
 
     @POST("albums/{id}/tracks")
     suspend fun createTrack(

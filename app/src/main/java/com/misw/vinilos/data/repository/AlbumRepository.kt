@@ -1,6 +1,7 @@
 package com.misw.vinilos.data.repository
 
 import com.misw.vinilos.data.model.Album
+import com.misw.vinilos.data.model.AlbumRequest
 import com.misw.vinilos.data.model.Track
 import com.misw.vinilos.data.network.ApiClient
 
@@ -26,7 +27,7 @@ class AlbumRepository {
         return ApiClient.retrofitService.getAlbum(id)
     }
 
-    suspend fun createAlbum(album: Album): Album {
+    suspend fun createAlbum(album: AlbumRequest): Album {
         return ApiClient.retrofitService.createAlbum(album)
     }
 

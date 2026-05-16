@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.misw.vinilos.data.model.Album
+import com.misw.vinilos.data.model.AlbumRequest
 import com.misw.vinilos.data.model.Musician
 import com.misw.vinilos.data.repository.AlbumRepository
 import com.misw.vinilos.data.repository.MusicianRepository
@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
  *  - Enviar el nuevo álbum al repositorio (POST /albums).
  *  - Exponer estados de validación, carga, éxito y error.
  */
-class CreateAlbumViewModel : ViewModel() {
-
-    private val albumRepository = AlbumRepository()
-    private val musicianRepository = MusicianRepository()
+class CreateAlbumViewModel(
+    private val albumRepository: AlbumRepository = AlbumRepository(),
+    private val musicianRepository: MusicianRepository = MusicianRepository()
+) : ViewModel() {
 
     // Lista de músicos para el dropdown de Artista
     private val _musicians = MutableLiveData<List<Musician>>(emptyList())
@@ -98,6 +98,7 @@ class CreateAlbumViewModel : ViewModel() {
         name: String,
         artistName: String,
         musicianId: Int,
+        coverUrl: String,
         releaseDateIso: String,
         releaseDateDisplay: String,
         recordLabel: String,
@@ -105,13 +106,13 @@ class CreateAlbumViewModel : ViewModel() {
         description: String
     ) {
         val validation = validateFields(
-            name = name,
-            artistName = artistName,
-            releaseDateIso = releaseDateIso,
+            name               = name,
+            artistName         = artistName,
+            releaseDateIso     = releaseDateIso,
             releaseDateDisplay = releaseDateDisplay,
-            recordLabel = recordLabel,
-            genre = genre,
-            description = description
+            recordLabel        = recordLabel,
+            genre              = genre,
+            description        = description
         )
 
         // Emitir siempre el estado de validación para que el Fragment actualice la UI
@@ -119,11 +120,11 @@ class CreateAlbumViewModel : ViewModel() {
 
         if (validation.isValid) {
             createAlbum(
-                name = name,
-                musicianId = musicianId,
+                name        = name,
+                coverUrl    = coverUrl,
                 releaseDate = releaseDateIso,
                 recordLabel = recordLabel,
-                genre = genre,
+                genre       = genre,
                 description = description
             )
         }
@@ -197,7 +198,7 @@ class CreateAlbumViewModel : ViewModel() {
 
     private fun createAlbum(
         name: String,
-        musicianId: Int,
+        coverUrl: String,
         releaseDate: String,
         recordLabel: String,
         genre: String,
@@ -208,16 +209,18 @@ class CreateAlbumViewModel : ViewModel() {
             _error.value = null
             _isSuccess.value = false
             try {
-                val album = Album(
-                    id = 0,
-                    name = name,
-                    cover = "",
+                // El backend requiere una URL válida en el campo cover.
+                // Si el usuario no seleccionó imagen usamos un placeholder.
+                val effectiveCover = coverUrl.ifBlank { PLACEHOLDER_COVER }
+                val request = AlbumRequest(
+                    name        = name,
+                    cover       = effectiveCover,
                     releaseDate = releaseDate,
                     description = description,
-                    genre = genre,
+                    genre       = genre,
                     recordLabel = recordLabel
                 )
-                albumRepository.createAlbum(album)
+                albumRepository.createAlbum(request)
                 _isSuccess.value = true
             } catch (e: Exception) {
                 _error.value = "Error al crear el álbum. Verifica tu conexión e intenta de nuevo."
@@ -232,7 +235,9 @@ class CreateAlbumViewModel : ViewModel() {
     }
 
     companion object {
-        internal const val ERROR_REQUIRED = "Campo requerido"
+        internal const val ERROR_REQUIRED    = "Campo requerido"
         internal const val ERROR_INVALID_DATE = "Selecciona una fecha válida"
+        internal const val PLACEHOLDER_COVER =
+            "https://via.placeholder.com/300x300.png?text=Sin+portada"
     }
 }

@@ -46,6 +46,9 @@ class CreateAlbumFragment : Fragment() {
     // Géneros disponibles según el backend
     private val genres = listOf("Classical", "Salsa", "Rock", "Folk")
 
+    // Sellos discográficos válidos según el backend
+    private val recordLabels = listOf("Sony Music", "EMI", "Discos Fuentes", "Elektra", "Fania Records")
+
     // Launcher para seleccionar imagen de la galería
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -70,7 +73,7 @@ class CreateAlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupCoverPicker()
-        setupGenreDropdown()
+        setupDropdowns()
         setupDatePicker()
         setupSaveButton()
         setupObservers()
@@ -92,18 +95,29 @@ class CreateAlbumFragment : Fragment() {
         }
     }
 
-    // ── Dropdown de Género (estático) ──────────────────────────────────────────
+    // ── Dropdowns estáticos: Género y Sello discográfico ─────────────────────
 
-    private fun setupGenreDropdown() {
-        val adapter = ArrayAdapter(
+    private fun setupDropdowns() {
+        // Género
+        val genreAdapter = ArrayAdapter(
             requireContext(),
             R.layout.item_dropdown_white,
             genres
         )
-        binding.actvGenre.setAdapter(adapter)
-        // Limpiar error al seleccionar
+        binding.actvGenre.setAdapter(genreAdapter)
         binding.actvGenre.setOnItemClickListener { _, _, _, _ ->
             binding.tilGenre.error = null
+        }
+
+        // Sello discográfico
+        val recordLabelAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.item_dropdown_white,
+            recordLabels
+        )
+        binding.actvRecordLabel.setAdapter(recordLabelAdapter)
+        binding.actvRecordLabel.setOnItemClickListener { _, _, _, _ ->
+            binding.tilRecordLabel.error = null
         }
     }
 
@@ -144,14 +158,15 @@ class CreateAlbumFragment : Fragment() {
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
             viewModel.submitAlbum(
-                name            = binding.etAlbumName.text.toString().trim(),
-                artistName      = binding.actvArtist.text.toString().trim(),
-                musicianId      = selectedMusicianId,
-                releaseDateIso  = binding.etReleaseDate.tag as? String ?: "",
+                name               = binding.etAlbumName.text.toString().trim(),
+                artistName         = binding.actvArtist.text.toString().trim(),
+                musicianId         = selectedMusicianId,
+                coverUrl           = selectedCoverUri?.toString() ?: "",
+                releaseDateIso     = binding.etReleaseDate.tag as? String ?: "",
                 releaseDateDisplay = binding.etReleaseDate.text.toString().trim(),
-                recordLabel     = binding.etRecordLabel.text.toString().trim(),
-                genre           = binding.actvGenre.text.toString().trim(),
-                description     = binding.etDescription.text.toString().trim()
+                recordLabel        = binding.actvRecordLabel.text.toString().trim(),
+                genre              = binding.actvGenre.text.toString().trim(),
+                description        = binding.etDescription.text.toString().trim()
             )
         }
     }
