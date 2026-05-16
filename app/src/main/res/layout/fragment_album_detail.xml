@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_dark">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -111,7 +111,7 @@
                 android:paddingTop="8dp" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddTrack"
