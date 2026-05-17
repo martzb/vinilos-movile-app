@@ -60,8 +60,12 @@ class CreateTrackFragment : Fragment() {
         binding.etTrackDuration.addTextChangedListener(object : TextWatcher {
             private var isFormatting = false
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No se necesita acción antes del cambio
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No se necesita acción durante el cambio
+            }
 
             override fun afterTextChanged(s: Editable?) {
                 if (isFormatting || s == null) return

@@ -99,10 +99,12 @@ class TrackCreateScreenTest {
 
         Thread.sleep(1500)
 
-        // Cierra el diálogo sin navegar hacia atrás
-        onView(withId(R.id.btnViewAlbum))
+        // Cierra el diálogo con back para quedarse en el formulario
+        onView(withText("Ver álbum →"))
             .inRoot(isDialog())
-            .perform(click())
+            .check(matches(isDisplayed()))
+
+        androidx.test.espresso.Espresso.pressBack()
 
         Thread.sleep(500)
 
