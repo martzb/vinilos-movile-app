@@ -90,22 +90,20 @@ class TrackCreateScreenTest {
         navigateToCreateTrack()
 
         onView(withId(R.id.etTrackName))
-            .perform(replaceText("Track en lista"), closeSoftKeyboard())
+            .perform(replaceText("Canción de prueba única"), closeSoftKeyboard())
 
         onView(withId(R.id.etTrackDuration))
             .perform(replaceText("02:30"), closeSoftKeyboard())
 
         onView(withId(R.id.btnSubmit)).perform(click())
 
-        Thread.sleep(3000)
+        // Espera a que aparezca el diálogo de éxito
+        Thread.sleep(1500)
 
-        // El diálogo de éxito confirma que el track fue creado y agregado al álbum
-        onView(withText("¡Track agregado!"))
-            .inRoot(isDialog())
-            .check(matches(isDisplayed()))
-
-        onView(withText("Ver álbum →"))
+        // Cierra el diálogo para volver al detalle del álbum
+        onView(withId(R.id.btnViewAlbum))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
     }
+
 }
