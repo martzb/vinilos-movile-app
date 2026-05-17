@@ -99,16 +99,12 @@ class TrackCreateScreenTest {
 
         Thread.sleep(1500)
 
-        // Cierra el diálogo con back para quedarse en el formulario
+        // Verifica que el diálogo de éxito aparece
         onView(withText("Ver álbum →"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
 
-        androidx.test.espresso.Espresso.pressBack()
-
-        Thread.sleep(500)
-
-        // Verifica que el track aparece en el RecyclerView local del formulario
+        // Verifica que el track ya aparece en el RecyclerView (detrás del diálogo)
         onView(withId(R.id.rvAddedTracks))
             .perform(
                 RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
