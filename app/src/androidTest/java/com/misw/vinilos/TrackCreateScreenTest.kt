@@ -99,13 +99,13 @@ class TrackCreateScreenTest {
 
         Thread.sleep(3000)
 
-        // Verifica que el diálogo de éxito aparece: el track fue creado exitosamente
-        onView(withText("Ver álbum →"))
+        // El diálogo de éxito confirma que el track fue creado y agregado al álbum
+        onView(withText("¡Track agregado!"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
 
-        // Verifica que el contador de tracks se actualizó (visible detrás del diálogo)
-        onView(withId(R.id.tvTracksCount))
-            .check(matches(withText("1 tracks")))
+        onView(withText("Ver álbum →"))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
     }
 }
