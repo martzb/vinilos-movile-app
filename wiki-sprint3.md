@@ -628,43 +628,9 @@ app/src/main/java/com/misw/vinilos/
 
 ## VRT — Inspección Visual de Regresión
 
-Se extrajeron capturas de pantalla con `adb shell screencap` en los 3 perfiles de la Granja Virtual, cubriendo las pantallas existentes del proyecto más las nuevas del Sprint 3.
+Se extrajeron capturas de pantalla con `adb shell screencap` en los 3 perfiles de la Granja Virtual sobre las nuevas pantallas del Sprint 3.
 
-### Verificación de regresión — pantallas existentes (Sprint 1 y 2)
-
-Se verificó que las pantallas de sprints anteriores no sufrieron regresión visual tras los cambios del Sprint 3.
-
-#### Perfil Standard — Pixel 7, Android 13, 4 GB RAM
-
-| Lista coleccionistas | Catálogo álbumes | Detalle álbum |
-|---|---|---|
-| ![collectors-standard](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-standard/vrt_collectors.png) | ![catalog-standard](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-standard/vrt_catalog.png) | ![detail-standard](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-standard/vrt_detail.png) |
-
-| Artistas | Detalle artista | Welcome |
-|---|---|---|
-| ![artists-standard](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-standard/vrt_artists.png) | ![artist-detail-standard](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-standard/vrt_artist_detail.png) | ![welcome-standard](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-standard/vrt_welcome.png) |
-
-#### Perfil Old Gen — Nexus 5, Android 9, 1 GB RAM
-
-| Lista coleccionistas | Catálogo álbumes | Detalle álbum |
-|---|---|---|
-| ![collectors-old](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-old-gen/vrt_collectors.png) | ![catalog-old](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-old-gen/vrt_catalog.png) | ![detail-old](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-old-gen/vrt_detail.png) |
-
-| Artistas | Detalle artista | Welcome |
-|---|---|---|
-| ![artists-old](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-old-gen/vrt_artists.png) | ![artist-detail-old](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-old-gen/vrt_artist_detail.png) | ![welcome-old](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-old-gen/vrt_welcome.png) |
-
-#### Perfil High End — Pixel Tablet, Android 14, 8 GB RAM
-
-| Lista coleccionistas | Catálogo álbumes | Detalle álbum |
-|---|---|---|
-| ![collectors-high](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-high-end/vrt_collectors.png) | ![catalog-high](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-high-end/vrt_catalog.png) | ![detail-high](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-high-end/vrt_detail.png) |
-
-| Artistas | Detalle artista | Welcome |
-|---|---|---|
-| ![artists-high](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-high-end/vrt_artists.png) | ![artist-detail-high](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-high-end/vrt_artist_detail.png) | ![welcome-high](https://raw.githubusercontent.com/martzb/vinilos-movile-app/main/vrt-baseline-high-end/vrt_welcome.png) |
-
-### Nuevas pantallas Sprint 3 — HU06, HU07, HU08 (3 perfiles)
+### Pantallas Sprint 3 — HU06, HU07, HU08 (3 perfiles)
 
 Capturas tomadas mediante `adb shell screencap` en los 3 perfiles de la Granja Virtual, verificando que las nuevas pantallas renderizan correctamente en todos los dispositivos objetivo.
 
