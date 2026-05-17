@@ -157,4 +157,40 @@ class RepositoryTest {
         try { repo.getCollectors() } catch (e: Exception) { caught = e }
         assertNotNull(caught)
     }
+
+    @Test
+    fun `CollectorRepository getCollector retorna el coleccionista correcto`() = runTest {
+        val collector = Collector(5, "Jaime Zuluaga", "jaime@gmail.com")
+        coEvery { apiService.getCollector(5) } returns collector
+        val repo = CollectorRepository()
+        assertEquals(collector, repo.getCollector(5))
+    }
+
+    @Test
+    fun `CollectorRepository getCollector propaga excepción`() = runTest {
+        coEvery { apiService.getCollector(any()) } throws RuntimeException("No encontrado")
+        val repo = CollectorRepository()
+        var caught: Exception? = null
+        try { repo.getCollector(99) } catch (e: Exception) { caught = e }
+        assertNotNull(caught)
+    }
+
+    @Test
+    fun `AlbumRepository createTrack retorna el track creado`() = runTest {
+        val request = com.misw.vinilos.data.model.TrackRequest("Decisiones", "04:52")
+        val track = com.misw.vinilos.data.model.Track(1, "Decisiones", "04:52")
+        coEvery { apiService.createTrack(1, request) } returns track
+        val repo = AlbumRepository()
+        assertEquals(track, repo.createTrack(1, request))
+    }
+
+    @Test
+    fun `AlbumRepository createTrack propaga excepción`() = runTest {
+        val request = com.misw.vinilos.data.model.TrackRequest("Decisiones", "04:52")
+        coEvery { apiService.createTrack(any(), any()) } throws RuntimeException("Error 500")
+        val repo = AlbumRepository()
+        var caught: Exception? = null
+        try { repo.createTrack(1, request) } catch (e: Exception) { caught = e }
+        assertNotNull(caught)
+    }
 }

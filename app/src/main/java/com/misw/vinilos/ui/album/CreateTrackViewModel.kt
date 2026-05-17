@@ -10,9 +10,9 @@ import com.misw.vinilos.data.model.TrackRequest
 import com.misw.vinilos.data.repository.AlbumRepository
 import kotlinx.coroutines.launch
 
-class CreateTrackViewModel : ViewModel() {
-
-    private val repository = AlbumRepository()
+class CreateTrackViewModel(
+    private val repository: AlbumRepository = AlbumRepository()
+) : ViewModel() {
 
     private val _album = MutableLiveData<Album>()
     val album: LiveData<Album> get() = _album

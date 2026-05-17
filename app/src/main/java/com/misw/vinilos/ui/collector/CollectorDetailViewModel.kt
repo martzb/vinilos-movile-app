@@ -8,10 +8,10 @@ import com.misw.vinilos.data.model.Collector
 import com.misw.vinilos.data.repository.CollectorRepository
 import kotlinx.coroutines.launch
 
-class CollectorDetailViewModel : ViewModel() {
-
-    private val repository = CollectorRepository()
-    private val albumRepository = com.misw.vinilos.data.repository.AlbumRepository()
+class CollectorDetailViewModel(
+    private val repository: CollectorRepository = CollectorRepository(),
+    private val albumRepository: com.misw.vinilos.data.repository.AlbumRepository = com.misw.vinilos.data.repository.AlbumRepository()
+) : ViewModel() {
 
     private val _collector = MutableLiveData<Collector>()
     val collector: LiveData<Collector> = _collector
