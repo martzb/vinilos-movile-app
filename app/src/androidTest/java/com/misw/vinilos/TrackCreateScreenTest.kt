@@ -99,23 +99,22 @@ class TrackCreateScreenTest {
 
         Thread.sleep(1500)
 
-        // Cierra el diálogo
+        // Cierra el diálogo sin navegar hacia atrás
         onView(withId(R.id.btnViewAlbum))
             .inRoot(isDialog())
             .perform(click())
 
-        Thread.sleep(1000)
+        Thread.sleep(500)
 
-        // Scroll al item que contiene el track con id trackName y texto "Track en lista"
-        onView(withId(R.id.tracksRecyclerView))
+        // Verifica que el track aparece en el RecyclerView local del formulario
+        onView(withId(R.id.rvAddedTracks))
             .perform(
                 RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(allOf(withId(R.id.trackName), withText("Track en lista")))
+                    hasDescendant(allOf(withId(R.id.tvTrackName), withText("Track en lista")))
                 )
             )
 
-        // Verifica que el track está visible
-        onView(allOf(withId(R.id.trackName), withText("Track en lista")))
+        onView(allOf(withId(R.id.tvTrackName), withText("Track en lista")))
             .check(matches(isDisplayed()))
     }
 }

@@ -158,15 +158,17 @@ class CreateAlbumFragment : Fragment() {
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
             viewModel.submitAlbum(
-                name               = binding.etAlbumName.text.toString().trim(),
-                artistName         = binding.actvArtist.text.toString().trim(),
-                musicianId         = selectedMusicianId,
-                coverUrl           = selectedCoverUri?.toString() ?: "",
-                releaseDateIso     = binding.etReleaseDate.tag as? String ?: "",
-                releaseDateDisplay = binding.etReleaseDate.text.toString().trim(),
-                recordLabel        = binding.actvRecordLabel.text.toString().trim(),
-                genre              = binding.actvGenre.text.toString().trim(),
-                description        = binding.etDescription.text.toString().trim()
+                CreateAlbumViewModel.AlbumFormData(
+                    name               = binding.etAlbumName.text.toString().trim(),
+                    artistName         = binding.actvArtist.text.toString().trim(),
+                    musicianId         = selectedMusicianId,
+                    coverUrl           = selectedCoverUri?.toString() ?: "",
+                    releaseDateIso     = binding.etReleaseDate.tag as? String ?: "",
+                    releaseDateDisplay = binding.etReleaseDate.text.toString().trim(),
+                    recordLabel        = binding.actvRecordLabel.text.toString().trim(),
+                    genre              = binding.actvGenre.text.toString().trim(),
+                    description        = binding.etDescription.text.toString().trim()
+                )
             )
         }
     }

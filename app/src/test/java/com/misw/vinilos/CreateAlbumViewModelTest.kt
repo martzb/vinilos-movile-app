@@ -94,15 +94,17 @@ class CreateAlbumViewModelTest {
 
     /** Parámetros válidos completos para submitAlbum. */
     private fun submitValid(vm: CreateAlbumViewModel) = vm.submitAlbum(
-        name               = validName,
-        artistName         = validArtistName,
-        musicianId         = validMusicianId,
-        coverUrl           = validCoverUrl,
-        releaseDateIso     = validIsoDate,
-        releaseDateDisplay = validDisplayDate,
-        recordLabel        = validRecordLabel,
-        genre              = validGenre,
-        description        = validDescription
+        CreateAlbumViewModel.AlbumFormData(
+            name               = validName,
+            artistName         = validArtistName,
+            musicianId         = validMusicianId,
+            coverUrl           = validCoverUrl,
+            releaseDateIso     = validIsoDate,
+            releaseDateDisplay = validDisplayDate,
+            recordLabel        = validRecordLabel,
+            genre              = validGenre,
+            description        = validDescription
+        )
     )
 
     // ── Tests de loadMusicians ─────────────────────────────────────────────────
@@ -332,15 +334,17 @@ class CreateAlbumViewModelTest {
         viewModel = buildViewModel()
         advanceUntilIdle()
         viewModel.submitAlbum(
-            name               = "",
-            artistName         = "",
-            musicianId         = -1,
-            coverUrl           = "",
-            releaseDateIso     = "",
-            releaseDateDisplay = "",
-            recordLabel        = "",
-            genre              = "",
-            description        = ""
+            CreateAlbumViewModel.AlbumFormData(
+                name               = "",
+                artistName         = "",
+                musicianId         = -1,
+                coverUrl           = "",
+                releaseDateIso     = "",
+                releaseDateDisplay = "",
+                recordLabel        = "",
+                genre              = "",
+                description        = ""
+            )
         )
         advanceUntilIdle()
         coVerify(exactly = 0) { albumRepository.createAlbum(any()) }
@@ -352,15 +356,17 @@ class CreateAlbumViewModelTest {
         viewModel = buildViewModel()
         advanceUntilIdle()
         viewModel.submitAlbum(
-            name               = "",
-            artistName         = "",
-            musicianId         = -1,
-            coverUrl           = "",
-            releaseDateIso     = "",
-            releaseDateDisplay = "",
-            recordLabel        = "",
-            genre              = "",
-            description        = ""
+            CreateAlbumViewModel.AlbumFormData(
+                name               = "",
+                artistName         = "",
+                musicianId         = -1,
+                coverUrl           = "",
+                releaseDateIso     = "",
+                releaseDateDisplay = "",
+                recordLabel        = "",
+                genre              = "",
+                description        = ""
+            )
         )
         advanceUntilIdle()
         val state = viewModel.validationState.value
@@ -432,15 +438,17 @@ class CreateAlbumViewModelTest {
         viewModel = buildViewModel()
         advanceUntilIdle()
         viewModel.submitAlbum(
-            name               = validName,
-            artistName         = validArtistName,
-            musicianId         = validMusicianId,
-            coverUrl           = "",          // sin imagen seleccionada
-            releaseDateIso     = validIsoDate,
-            releaseDateDisplay = validDisplayDate,
-            recordLabel        = validRecordLabel,
-            genre              = validGenre,
-            description        = validDescription
+            CreateAlbumViewModel.AlbumFormData(
+                name               = validName,
+                artistName         = validArtistName,
+                musicianId         = validMusicianId,
+                coverUrl           = "",          // sin imagen seleccionada
+                releaseDateIso     = validIsoDate,
+                releaseDateDisplay = validDisplayDate,
+                recordLabel        = validRecordLabel,
+                genre              = validGenre,
+                description        = validDescription
+            )
         )
         advanceUntilIdle()
         coVerify {

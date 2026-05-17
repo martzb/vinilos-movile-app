@@ -94,38 +94,39 @@ class CreateAlbumViewModel(
      * @param genre         Género musical
      * @param description   Descripción del álbum
      */
-    fun submitAlbum(
-        name: String,
-        artistName: String,
-        musicianId: Int,
-        coverUrl: String,
-        releaseDateIso: String,
-        releaseDateDisplay: String,
-        recordLabel: String,
-        genre: String,
-        description: String
-    ) {
+    data class AlbumFormData(
+        val name: String,
+        val artistName: String,
+        val musicianId: Int,
+        val coverUrl: String,
+        val releaseDateIso: String,
+        val releaseDateDisplay: String,
+        val recordLabel: String,
+        val genre: String,
+        val description: String
+    )
+
+    fun submitAlbum(formData: AlbumFormData) {
         val validation = validateFields(
-            name               = name,
-            artistName         = artistName,
-            releaseDateIso     = releaseDateIso,
-            releaseDateDisplay = releaseDateDisplay,
-            recordLabel        = recordLabel,
-            genre              = genre,
-            description        = description
+            name               = formData.name,
+            artistName         = formData.artistName,
+            releaseDateIso     = formData.releaseDateIso,
+            releaseDateDisplay = formData.releaseDateDisplay,
+            recordLabel        = formData.recordLabel,
+            genre              = formData.genre,
+            description        = formData.description
         )
 
-        // Emitir siempre el estado de validación para que el Fragment actualice la UI
         _validationState.value = validation
 
         if (validation.isValid) {
             createAlbum(
-                name        = name,
-                coverUrl    = coverUrl,
-                releaseDate = releaseDateIso,
-                recordLabel = recordLabel,
-                genre       = genre,
-                description = description
+                name        = formData.name,
+                coverUrl    = formData.coverUrl,
+                releaseDate = formData.releaseDateIso,
+                recordLabel = formData.recordLabel,
+                genre       = formData.genre,
+                description = formData.description
             )
         }
     }
