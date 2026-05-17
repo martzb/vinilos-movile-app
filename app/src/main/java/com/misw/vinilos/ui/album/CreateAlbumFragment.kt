@@ -13,9 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.misw.vinilos.R
-import com.misw.vinilos.databinding.DialogSuccessBinding
 import com.misw.vinilos.databinding.FragmentCreateAlbumBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -226,21 +224,7 @@ class CreateAlbumFragment : Fragment() {
     // ── Diálogo de éxito ───────────────────────────────────────────────────────
 
     private fun showSuccessDialog() {
-        if (successDialog?.isShowing == true) return
-
-        val dialogBinding = DialogSuccessBinding.inflate(layoutInflater)
-        successDialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogBinding.root)
-            .setCancelable(false)
-            .create()
-
-        dialogBinding.btnViewAlbum.setOnClickListener {
-            successDialog?.dismiss()
-            findNavController().navigateUp()
-        }
-
-        successDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        successDialog?.show()
+        showSuccessDialog(successDialog) { successDialog = it }
     }
 
     // ── Ciclo de vida ──────────────────────────────────────────────────────────
