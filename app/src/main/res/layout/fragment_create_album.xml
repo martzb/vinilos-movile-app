@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_dark">
 
-    <!-- Toolbar con flecha de regreso -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
         app:title="@string/create_album_title"
         app:titleTextColor="@color/text_primary" />
 
-    <!-- Área scrolleable con los campos del formulario -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- ── Selector de portada ── -->
+            <!-- Selector de portada -->
             <FrameLayout
                 android:id="@+id/flCoverPicker"
                 android:layout_width="140dp"
@@ -45,7 +43,6 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
-                <!-- Imagen seleccionada (oculta por defecto) -->
                 <ImageView
                     android:id="@+id/ivCoverPreview"
                     android:layout_width="match_parent"
@@ -54,7 +51,6 @@
                     android:visibility="gone"
                     android:contentDescription="@string/hint_album_cover" />
 
-                <!-- Placeholder: icono + texto -->
                 <LinearLayout
                     android:id="@+id/llCoverPlaceholder"
                     android:layout_width="wrap_content"
@@ -79,21 +75,14 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Campo: Nombre del Álbum -->
+            <!-- Nombre del Álbum -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAlbumName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/VinilosTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/hint_album_name"
-                app:boxBackgroundColor="@color/field_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/text_secondary"
-                app:hintTextColor="@color/text_secondary">
+                android:hint="@string/hint_album_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etAlbumName"
@@ -101,25 +90,18 @@
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_secondary"
+                    android:textColorHint="@color/text_primary"
                     android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo: Artista (Dropdown) -->
+            <!-- Artista -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilArtist"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/VinilosTextInputLayout.Dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/hint_artist"
-                app:boxBackgroundColor="@color/field_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/text_secondary"
-                app:hintTextColor="@color/text_secondary">
+                android:hint="@string/hint_artist">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvArtist"
@@ -127,25 +109,18 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_secondary"
+                    android:textColorHint="@color/text_primary"
                     tools:text="Selecciona un artista" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo: Fecha de lanzamiento -->
+            <!-- Fecha de lanzamiento -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilReleaseDate"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/VinilosTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/hint_release_date"
-                app:boxBackgroundColor="@color/field_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/text_secondary"
-                app:hintTextColor="@color/text_secondary"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_calendar"
                 app:endIconTint="@color/text_secondary">
@@ -157,24 +132,17 @@
                     android:focusable="false"
                     android:cursorVisible="false"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_secondary" />
+                    android:textColorHint="@color/text_primary" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo: Sello discográfico (Dropdown) -->
+            <!-- Sello discográfico -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilRecordLabel"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/VinilosTextInputLayout.Dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/hint_record_label"
-                app:boxBackgroundColor="@color/field_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/text_secondary"
-                app:hintTextColor="@color/text_secondary">
+                android:hint="@string/hint_record_label">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvRecordLabel"
@@ -182,25 +150,18 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_secondary"
+                    android:textColorHint="@color/text_primary"
                     tools:text="Selecciona un sello" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo: Género (Dropdown) -->
+            <!-- Género -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilGenre"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/VinilosTextInputLayout.Dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/hint_genre"
-                app:boxBackgroundColor="@color/field_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/text_secondary"
-                app:hintTextColor="@color/text_secondary">
+                android:hint="@string/hint_genre">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvGenre"
@@ -208,25 +169,18 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_secondary"
+                    android:textColorHint="@color/text_primary"
                     tools:text="Selecciona un género" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo: Descripción (multi-línea) -->
+            <!-- Descripción -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilDescription"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/VinilosTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="@string/hint_description"
-                app:boxBackgroundColor="@color/field_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/text_secondary"
-                app:hintTextColor="@color/text_secondary">
+                android:hint="@string/hint_description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDescription"
@@ -236,13 +190,12 @@
                     android:minLines="4"
                     android:gravity="top|start"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_secondary" />
+                    android:textColorHint="@color/text_primary" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Botón Guardar fijo al fondo -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSave"
         android:layout_width="0dp"
@@ -264,7 +217,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- ProgressBar centrado -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

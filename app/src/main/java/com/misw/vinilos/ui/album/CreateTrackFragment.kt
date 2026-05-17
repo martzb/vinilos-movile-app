@@ -1,6 +1,8 @@
 package com.misw.vinilos.ui.album
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +56,26 @@ class CreateTrackFragment : Fragment() {
         adapter = AddedTrackAdapter()
         binding.rvAddedTracks.layoutManager = LinearLayoutManager(context)
         binding.rvAddedTracks.adapter = adapter
+
+        binding.etTrackDuration.addTextChangedListener(object : TextWatcher {
+            private var isFormatting = false
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting || s == null) return
+                isFormatting = true
+                val digits = s.toString().filter { it.isDigit() }
+                val formatted = if (digits.length >= 3) {
+                    "${digits.substring(0, 2)}:${digits.substring(2).take(2)}"
+                } else {
+                    digits
+                }
+                s.replace(0, s.length, formatted)
+                isFormatting = false
+            }
+        })
 
         binding.btnSubmit.setOnClickListener {
             val name = binding.etTrackName.text.toString().trim()
