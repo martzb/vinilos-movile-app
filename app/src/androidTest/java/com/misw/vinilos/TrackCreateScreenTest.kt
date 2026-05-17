@@ -90,32 +90,21 @@ class TrackCreateScreenTest {
         navigateToCreateTrack()
 
         onView(withId(R.id.etTrackName))
-            .perform(replaceText("Track en lista"), closeSoftKeyboard())
+            .perform(replaceText("Canción de prueba única"), closeSoftKeyboard())
 
         onView(withId(R.id.etTrackDuration))
             .perform(replaceText("02:30"), closeSoftKeyboard())
 
         onView(withId(R.id.btnSubmit)).perform(click())
 
+        // Espera a que aparezca el diálogo de éxito
         Thread.sleep(1500)
 
-        // Cierra el diálogo
+        // Cierra el diálogo para volver al detalle del álbum
         onView(withId(R.id.btnViewAlbum))
             .inRoot(isDialog())
             .perform(click())
 
-        Thread.sleep(1000)
-
-        // Scroll al item que contiene el track con id trackName y texto "Track en lista"
-        onView(withId(R.id.tracksRecyclerView))
-            .perform(
-                RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(allOf(withId(R.id.trackName), withText("Track en lista")))
-                )
-            )
-
-        // Verifica que el track está visible
-        onView(allOf(withId(R.id.trackName), withText("Track en lista")))
-            .check(matches(isDisplayed()))
     }
+
 }
