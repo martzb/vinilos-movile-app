@@ -15,7 +15,7 @@ fun Fragment.showSuccessDialog(
     val dialogBinding = DialogSuccessBinding.inflate(layoutInflater)
     val dialog = MaterialAlertDialogBuilder(requireContext())
         .setView(dialogBinding.root)
-        .setCancelable(false)
+        .setCancelable(true)
         .create()
 
     dialogBinding.btnViewAlbum.setOnClickListener {
