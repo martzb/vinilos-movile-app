@@ -12,6 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
+        app:navigationContentDescription="Regresar"
         app:title="Agregar Track"
         app:titleTextColor="@color/text_primary" />
 
@@ -51,7 +52,7 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:scaleType="centerCrop"
-                        android:contentDescription="Portada del álbum"
+                        android:importantForAccessibility="no"
                         tools:src="@tools:sample/avatars" />
 
                     <LinearLayout
@@ -98,7 +99,8 @@
                 android:text="Detalles del Track"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:accessibilityHeading="true" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/VinilosTextInputLayout"
@@ -139,6 +141,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@color/text_secondary"
+                android:importantForAccessibility="no"
                 android:alpha="0.2" />
 
             <!-- Tracks Agregados -->
@@ -156,7 +159,8 @@
                     android:text="Tracks Agregados"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:accessibilityHeading="true" />
 
                 <TextView
                     android:id="@+id/tvTracksCount"

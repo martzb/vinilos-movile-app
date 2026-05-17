@@ -80,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:minHeight="48dp"
                     android:text="Follow"
                     android:textAllCaps="false"
                     app:backgroundTint="@color/accent_purple"
@@ -91,6 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:minHeight="48dp"
                     android:text="Message"
                     android:textAllCaps="false"
                     android:textColor="@color/text_primary"
@@ -143,6 +145,7 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/text_secondary"
+                        android:importantForAccessibility="no"
                         android:alpha="0.2" />
 
                     <LinearLayout
@@ -172,6 +175,7 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/text_secondary"
+                        android:importantForAccessibility="no"
                         android:alpha="0.2" />
 
                     <LinearLayout
@@ -219,7 +223,8 @@
                     android:text="Álbumes favoritos"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:accessibilityHeading="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -249,6 +254,7 @@
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:accessibilityHeading="true"
                 app:layout_constraintTop_toBottomOf="@id/rvAlbums" />
 
             <androidx.recyclerview.widget.RecyclerView
