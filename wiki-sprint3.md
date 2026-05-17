@@ -768,11 +768,11 @@ Las pruebas instrumentadas se ejecutan automáticamente en el emulador Android A
 
 | Sección | Brian Martínez | David Rojas | Diego Rojas | Ruben Camargo |
 |---|---|---|---|---|
-| **Keep Doing** — Seguir haciendo | Resolver bugs encontrados por el equipo antes del cierre | Validar cada cambio antes de hacer merge | Ejecutar pruebas antes de cada entrega | Mantener el ritmo de entrega anticipada |
-| **More of** — Hacer más | Participar en la revisión de código de otros compañeros | Documentar las decisiones de arquitectura tomadas | Comunicar bloqueos técnicos con anticipación | Escribir comentarios explicativos en tests complejos |
-| **Less of** — Hacer menos | Dejar bugs sin reporte formal en el backlog | Implementar sin revisar los criterios de aceptación | Mergear sin ejecutar el pipeline completo | Esperar el último día para integrar cambios |
-| **Stop Doing** — Dejar de hacer | Asumir que CI valida todo sin revisar localmente | Ignorar warnings del linter y SonarQube | Pasar por alto casos borde en formularios | No actualizar el estado de las tareas en el backlog |
-| **Start Doing** — Empezar a hacer | Hacer pair programming en flujos de escritura complejos | Definir casos de prueba antes de implementar | Añadir accesibilidad como parte del Definition of Done | Revisar SonarQube antes de cada PR |
+| **Keep Doing** — Seguir haciendo | | | | |
+| **More of** — Hacer más | | | | |
+| **Less of** — Hacer menos | | | | |
+| **Stop Doing** — Dejar de hacer | | | | |
+| **Start Doing** — Empezar a hacer | | | | |
 
 ---
 
