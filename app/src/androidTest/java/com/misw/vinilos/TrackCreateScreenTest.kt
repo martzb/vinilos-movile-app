@@ -103,7 +103,8 @@ class TrackCreateScreenTest {
         // Cierra el diálogo para volver al detalle del álbum
         onView(withId(R.id.btnViewAlbum))
             .inRoot(isDialog())
-            .check(matches(isDisplayed()))
+            .perform(click())
+
     }
 
 }
