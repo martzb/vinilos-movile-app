@@ -768,11 +768,11 @@ Las pruebas instrumentadas se ejecutan automáticamente en el emulador Android A
 
 | Sección | Brian Martínez | David Rojas | Diego Rojas | Ruben Camargo |
 |---|---|---|---|---|
-| **Keep Doing** — Seguir haciendo | | | | |
-| **More of** — Hacer más | | | | |
-| **Less of** — Hacer menos | | | | |
-| **Stop Doing** — Dejar de hacer | | | | |
-| **Start Doing** — Empezar a hacer | | | | |
+| **Keep Doing** — Seguir haciendo | | | | Corregir bugs de tests inmediatamente tras detectarlos en CI |
+| **More of** — Hacer más | | | | Documentar decisiones de refactor (ej. extracción de `FragmentDialogExt`) en el PR |
+| **Less of** — Hacer menos | | | | Iterar múltiples commits pequeños de fix sobre el mismo test sin consolidar |
+| **Stop Doing** — Dejar de hacer | | | | Asumir que un test que pasa localmente pasará en CI sin verificar el emulador |
+| **Start Doing** — Empezar a hacer | | | | Definir los casos E2E antes de implementar el feature para detectar edge cases temprano |
 
 ---
 
