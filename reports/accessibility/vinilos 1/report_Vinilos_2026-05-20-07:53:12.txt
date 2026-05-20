@@ -1,0 +1,7 @@
+A continuación, encontrarás una lista de oportunidades para mejorar la accesibilidad de Vinilos. Cada elemento corresponde a un área descrita en la captura de pantalla adjunta.
+
+Descripciones de elementos
+com.misw.vinilos:id/iv_logo
+Hay varios elementos con la misma descripción.
+El texto hablado de este elemento en el que no se puede hacer clic: "Vinilos" es idéntico al de otros 1 elementos.
+

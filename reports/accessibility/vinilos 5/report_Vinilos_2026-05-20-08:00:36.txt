@@ -1,0 +1,26 @@
+A continuación, encontrarás una lista de oportunidades para mejorar la accesibilidad de Vinilos. Cada elemento corresponde a un área descrita en la captura de pantalla adjunta.
+
+Etiqueta del elemento
+[0,135][168,303]
+Es posible que este elemento no tenga una etiqueta que pueda leer un lector de pantalla.
+
+Ajuste de texto
+[48,1685][468,2244]
+Este ViewGroup tiene un ancho fijo y contiene una TextView con texto ajustable.
+Prueba a modificar los LayoutParams para permitir que el texto se amplíe.
+
+Contraste del texto
+com.misw.vinilos:id/btnFollow
+¿Por qué no aumentas la relación de contraste entre el color de fondo y de primer plano del texto de este elemento?
+La relación de contraste del texto del elemento es 3.33. Esta cifra se basa en un color de primer plano estimado de #381E72 y un color de fondo estimado de #7B6CF6. Te recomendamos que aumentes la relación de contraste del texto de ese elemento a 4.50 o a un valor superior.
+
+Contraste del texto
+[1022,1581][1160,1634]
+¿Por qué no aumentas la relación de contraste entre el color de fondo y de primer plano del texto de este elemento?
+La relación de contraste del texto del elemento es 4.32. Esta cifra se basa en un color de primer plano estimado de #7B6CF6 y un color de fondo estimado de #1A1A2E. Te recomendamos que aumentes la relación de contraste del texto de ese elemento a 4.50 o a un valor superior.
+
+Ajuste de texto
+com.misw.vinilos:id/toolbar
+Este ViewGroup tiene una altura fija y contiene una TextView con texto ajustable.
+Prueba a modificar los LayoutParams para permitir que el texto se amplíe.
+

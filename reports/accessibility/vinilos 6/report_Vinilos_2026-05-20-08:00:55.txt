@@ -1,0 +1,17 @@
+A continuación, encontrarás una lista de oportunidades para mejorar la accesibilidad de Vinilos. Cada elemento corresponde a un área descrita en la captura de pantalla adjunta.
+
+Contraste del texto
+com.misw.vinilos:id/btnPlayAll
+¿Por qué no aumentas la relación de contraste entre el color de fondo y de primer plano del texto de este elemento?
+La relación de contraste del texto del elemento es 3.95. Esta cifra se basa en un color de primer plano estimado de #FFFFFF y un color de fondo estimado de #7B6CF6. Te recomendamos que aumentes la relación de contraste del texto de ese elemento a 4.50 o a un valor superior.
+
+Contraste del texto
+com.misw.vinilos:id/trackDuration
+¿Por qué no aumentas la relación de contraste entre el color de fondo y de primer plano del texto de este elemento?
+La relación de contraste del texto del elemento es 3.95. Esta cifra se basa en un color de primer plano estimado de #FFFFFF y un color de fondo estimado de #7B6CF6. Te recomendamos que aumentes la relación de contraste del texto de ese elemento a 4.50 o a un valor superior. Es posible que este elemento quede oculto por el contenido que aparece en pantalla. Comprueba el contraste del elemento manualmente.
+
+Ajuste de texto
+com.misw.vinilos:id/trackNumber
+Esta TextView tiene un ancho fijo y un texto ajustable.
+Prueba a modificar los LayoutParams para permitir que el texto se amplíe.
+

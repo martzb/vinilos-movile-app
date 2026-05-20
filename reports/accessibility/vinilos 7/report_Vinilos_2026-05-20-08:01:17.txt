@@ -1,0 +1,16 @@
+A continuación, encontrarás una lista de oportunidades para mejorar la accesibilidad de Vinilos. Cada elemento corresponde a un área descrita en la captura de pantalla adjunta.
+
+Etiqueta del elemento
+[0,135][168,303]
+Es posible que este elemento no tenga una etiqueta que pueda leer un lector de pantalla.
+
+Ajuste de texto
+[48,1606][468,2165]
+Este ViewGroup tiene un ancho fijo y contiene una TextView con texto ajustable.
+Prueba a modificar los LayoutParams para permitir que el texto se amplíe.
+
+Ajuste de texto
+[504,1606][924,2165]
+Este ViewGroup tiene un ancho fijo y contiene una TextView con texto ajustable.
+Prueba a modificar los LayoutParams para permitir que el texto se amplíe.
+

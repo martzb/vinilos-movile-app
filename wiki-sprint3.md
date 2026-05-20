@@ -329,20 +329,151 @@ Los únicos warnings en los tres perfiles provienen de procesos del sistema exte
 
 ### Revisión de Accesibilidad
 
-Se ejecutó revisión de accesibilidad con **Accessibility Scanner** de Google sobre los 3 nuevos fragmentos del Sprint 3.
+Se ejecutó revisión de accesibilidad con **Accessibility Scanner** de Google sobre las 8 pantallas de la aplicación Vinilos. Los escaneos se realizaron el **20 de mayo de 2026** en un emulador Pixel 7 (API 33). Los reportes y capturas están en [`reports/accessibility/`](https://github.com/martzb/vinilos-movile-app/tree/main/reports/accessibility/).
 
-| Fragmento | Problemas detectados | Estado |
+#### Resumen de hallazgos por pantalla
+
+| # Escaneo | Pantalla | Problemas | Categorías |
+|---|---|---|---|
+| vinilos 1 | Pantalla de bienvenida / Home | 1 | Descripción de elementos |
+| vinilos 2 | Detalle de álbum (con tracks) | 4 | Contraste de texto, Ajuste de texto |
+| vinilos 3 | `CreateTrackFragment` | 4 | Contraste de texto, Ajuste de texto |
+| vinilos 4 | Listado de músicos | 2 | Etiqueta de elemento, Ajuste de texto |
+| vinilos 5 | `CollectorDetailFragment` | 5 | Etiqueta de elemento, Contraste de texto, Ajuste de texto |
+| vinilos 6 | Detalle de álbum (variante) | 3 | Contraste de texto, Ajuste de texto |
+| vinilos 7 | Listado de coleccionistas | 3 | Etiqueta de elemento, Ajuste de texto |
+| vinilos 8 | `CreateAlbumFragment` | 6 | Contraste de texto, Descripciones duplicadas, Ajuste de texto, Texto no expuesto |
+
+---
+
+#### Detalle de hallazgos por pantalla
+
+##### Escaneo 1 — Pantalla de bienvenida / Home
+
+![Accesibilidad vinilos 1](reports/accessibility/vinilos%201/screenshot_Vinilos_2026-05-20-07:53:12.png)
+
+| Categoría | Elemento | Descripción |
 |---|---|---|
-| `CollectorDetailFragment` | Sin problemas | **PASA** |
-| `CreateAlbumFragment` | Sin problemas | **PASA** |
-| `CreateTrackFragment` | Sin problemas | **PASA** |
+| Descripción de elementos | `com.misw.vinilos:id/iv_logo` | El texto hablado de este elemento no interactivo `"Vinilos"` es idéntico al de otro elemento. Hay varios elementos con la misma descripción. |
 
-**Criterios evaluados:**
-- `contentDescription` y `hint` descriptivos en todos los campos de entrada
-- Contraste de color ≥ 4.5:1 en formularios (colores ajustados en commit `44969a2`)
-- Área táctil ≥ 48dp en botones `btnSave` y `btnSubmit`
-- Orden de enfoque de teclado lógico en los formularios
-- Labels de sección legibles por TalkBack (`"Álbumes favoritos"`, `"Artistas favoritos"`)
+---
+
+##### Escaneo 2 — Detalle de álbum (con lista de tracks)
+
+![Accesibilidad vinilos 2](reports/accessibility/vinilos%202/screenshot_Vinilos_2026-05-20-07:59:32.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Contraste de texto | `com.misw.vinilos:id/btnPlayAll` | Relación de contraste: **3.95** (primer plano `#FFFFFF` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Contraste de texto | `com.misw.vinilos:id/trackDuration` | Relación de contraste: **4.32** (primer plano `#1A1A2E` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Ajuste de texto | `com.misw.vinilos:id/trackNumber` | `TextView` con **ancho fijo** y texto ajustable. Se recomienda permitir que el layout se amplíe. |
+| Ajuste de texto | `com.misw.vinilos:id/trackNumber` *(segundo)* | Misma advertencia en segunda instancia del elemento. |
+
+---
+
+##### Escaneo 3 — CreateTrackFragment (formulario de tracks)
+
+![Accesibilidad vinilos 3](reports/accessibility/vinilos%203/screenshot_Vinilos_2026-05-20-07:59:55.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Contraste de texto | `[324,421][449,467]` | Relación de contraste: **3.54** (primer plano `#7B6CF6` sobre fondo `#2A2A3F`). Mínimo recomendado: 4.50. |
+| Contraste de texto | `com.misw.vinilos:id/btnSubmit` | Relación de contraste: **3.33** (primer plano `#381E72` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Ajuste de texto | `com.misw.vinilos:id/btnSubmit` | `TextView` con **altura fija** y texto ajustable. Se recomienda permitir expansión. |
+| Ajuste de texto | `com.misw.vinilos:id/toolbar` | `ViewGroup` con **altura fija** que contiene una `TextView` con texto ajustable. |
+
+---
+
+##### Escaneo 4 — Listado de músicos
+
+![Accesibilidad vinilos 4](reports/accessibility/vinilos%204/screenshot_Vinilos_2026-05-20-08:00:19.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Etiqueta de elemento | `[0,135][168,303]` | Es posible que este elemento no tenga una etiqueta legible por un lector de pantalla. |
+| Ajuste de texto | `com.misw.vinilos:id/toolbar` | `ViewGroup` con **altura fija** que contiene una `TextView` con texto ajustable. |
+
+---
+
+##### Escaneo 5 — CollectorDetailFragment (detalle de coleccionista)
+
+![Accesibilidad vinilos 5](reports/accessibility/vinilos%205/screenshot_Vinilos_2026-05-20-08:00:36.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Etiqueta de elemento | `[0,135][168,303]` | Es posible que este elemento no tenga una etiqueta legible por un lector de pantalla. |
+| Ajuste de texto | `[48,1685][468,2244]` | `ViewGroup` con **ancho fijo** que contiene una `TextView` con texto ajustable. |
+| Contraste de texto | `com.misw.vinilos:id/btnFollow` | Relación de contraste: **3.33** (primer plano `#381E72` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Contraste de texto | `[1022,1581][1160,1634]` | Relación de contraste: **4.32** (primer plano `#7B6CF6` sobre fondo `#1A1A2E`). Mínimo recomendado: 4.50. |
+| Ajuste de texto | `com.misw.vinilos:id/toolbar` | `ViewGroup` con **altura fija** que contiene una `TextView` con texto ajustable. |
+
+---
+
+##### Escaneo 6 — Detalle de álbum (variante)
+
+![Accesibilidad vinilos 6](reports/accessibility/vinilos%206/screenshot_Vinilos_2026-05-20-08:00:55.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Contraste de texto | `com.misw.vinilos:id/btnPlayAll` | Relación de contraste: **3.95** (primer plano `#FFFFFF` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Contraste de texto | `com.misw.vinilos:id/trackDuration` | Relación de contraste: **3.95** (primer plano `#FFFFFF` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Ajuste de texto | `com.misw.vinilos:id/trackNumber` | `TextView` con **ancho fijo** y texto ajustable. Se recomienda permitir expansión. |
+
+---
+
+##### Escaneo 7 — Listado de coleccionistas
+
+![Accesibilidad vinilos 7](reports/accessibility/vinilos%207/screenshot_Vinilos_2026-05-20-08:01:17.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Etiqueta de elemento | `[0,135][168,303]` | Es posible que este elemento no tenga una etiqueta legible por un lector de pantalla. |
+| Ajuste de texto | `[48,1606][468,2165]` | `ViewGroup` con **ancho fijo** que contiene una `TextView` con texto ajustable. |
+| Ajuste de texto | `[504,1606][924,2165]` | `ViewGroup` con **ancho fijo** que contiene una `TextView` con texto ajustable. |
+
+---
+
+##### Escaneo 8 — CreateAlbumFragment (formulario de álbum)
+
+![Accesibilidad vinilos 8](reports/accessibility/vinilos%208/screenshot_Vinilos_2026-05-20-08:01:56.png)
+
+| Categoría | Elemento | Descripción |
+|---|---|---|
+| Etiqueta de elemento | `[0,135][168,303]` | Es posible que este elemento no tenga una etiqueta legible por un lector de pantalla. |
+| Contraste de texto | `com.misw.vinilos:id/btnSave` | Relación de contraste: **3.95** (primer plano `#FFFFFF` sobre fondo `#7B6CF6`). Mínimo recomendado: 4.50. |
+| Descripciones duplicadas | `com.misw.vinilos:id/text_input_end_icon` | El texto `"no marcado, Mostrar menú desplegable"` es idéntico al de otros 2 elementos. |
+| Ajuste de texto | `com.misw.vinilos:id/btnSave` | `TextView` con **altura fija** y texto ajustable. Se recomienda permitir expansión. |
+| Ajuste de texto | `com.misw.vinilos:id/toolbar` | `ViewGroup` con **altura fija** que contiene una `TextView` con texto ajustable. |
+| Ajuste de texto | `com.misw.vinilos:id/flCoverPicker` | `ViewGroup` con **tamaño fijo** que contiene una `TextView` con texto ajustable. |
+| Texto no expuesto | `com.misw.vinilos:id/etAlbumName` | Posible texto detectado: `"Nombre del Ábum"`. La etiqueta de accesibilidad debería incluir el texto visible. |
+
+---
+
+#### Consolidado de hallazgos por categoría
+
+| Categoría | Pantallas afectadas | Total de hallazgos |
+|---|---|---|
+| **Contraste de texto** | vinilos 2, 3, 5, 6, 8 | 9 |
+| **Ajuste de texto** | vinilos 2, 3, 4, 5, 6, 7, 8 | 13 |
+| **Etiqueta de elemento** | vinilos 4, 5, 7, 8 | 4 |
+| **Descripciones duplicadas** | vinilos 1, 8 | 2 |
+| **Texto no expuesto** | vinilos 8 | 1 |
+| **Total** | | **29** |
+
+#### Problemas de contraste detectados
+
+| Elemento | Contraste actual | Contraste mínimo WCAG AA | Pantalla |
+|---|---|---|---|
+| `btnPlayAll` | 3.95 | 4.50 | vinilos 2, 6 |
+| `trackDuration` | 4.32 | 4.50 | vinilos 2 |
+| `trackDuration` | 3.95 | 4.50 | vinilos 6 |
+| Texto sobre fondo oscuro `[324,421][449,467]` | 3.54 | 4.50 | vinilos 3 |
+| `btnSubmit` | 3.33 | 4.50 | vinilos 3 |
+| `btnFollow` | 3.33 | 4.50 | vinilos 5 |
+| Texto `[1022,1581][1160,1634]` | 4.32 | 4.50 | vinilos 5 |
+| `btnSave` | 3.95 | 4.50 | vinilos 8 |
+
+> El color de fondo común `#7B6CF6` (púrpura del tema) es la causa raíz del bajo contraste en botones y etiquetas. Se recomienda oscurecer el color a un valor cercano a `#5B4CC8` para alcanzar ratio ≥ 4.50 con texto blanco.
 
 ---
 
